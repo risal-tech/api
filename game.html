@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dino Mini Game</title>
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: sans-serif;
+      overflow: hidden;
+      margin: 0;
+      text-align: center;
+    }
+    .game {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: #fff;
+      border-bottom: 3px solid #333;
+      overflow: hidden;
+    }
+    #dino {
+      width: 60px;
+      height: 60px;
+      background: url('https://files.catbox.moe/5fesaz.webp') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+    }
+    .obstacle {
+      width: 30px;
+      height: 50px;
+      background: url('https://files.catbox.moe/n48qeh.jpg') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      bottom: 0;
+      right: -40px;
+      animation: move 2s linear infinite;
+    }
+    @keyframes move {
+      0% { right: -40px; }
+      100% { right: 100%; }
+    }
+    .jump {
+      animation: jump 0.5s ease-out;
+    }
+    @keyframes jump {
+      0% { bottom: 0; }
+      50% { bottom: 100px; }
+      100% { bottom: 0; }
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <div id="dino"></div>
+    <div class="obstacle" id="obstacle"></div>
+  </div>
+
+  <button onclick="jump()">Lompat</button>
+
+  <script>
+    const dino = document.getElementById("dino");
+
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "Space" || event.code === "ArrowUp") {
+        jump();
+      }
+    });
+
+    function jump() {
+      if (!dino.classList.contains("jump")) {
+        dino.classList.add("jump");
+        setTimeout(() => {
+          dino.classList.remove("jump");
+        }, 500);
+      }
+    }
+
+    setInterval(() => {
+      const dinoBottom = parseInt(window.getComputedStyle(dino).getPropertyValue("bottom"));
+      const obstacle = document.getElementById("obstacle");
+      const obsRight = parseInt(window.getComputedStyle(obstacle).getPropertyValue("right"));
+      const obsWidth = parseInt(window.getComputedStyle(obstacle).getPropertyValue("width"));
+      const gameWidth = document.querySelector(".game").offsetWidth;
+
+      const obsLeft = gameWidth - obsRight - obsWidth;
+
+      if (obsLeft >= 50 && obsLeft <= 90 && dinoBottom <= 40) {
+        alert("Game Over!");
+        location.reload();
+      }
+    }, 10);
+  </script>
+</body>
+</html>

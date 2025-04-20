@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools Gratis - Ditss Store</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #001f3f;
+      color: white;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0, 0, 50, 0.7);
+      box-shadow: 0 0 20px cyan;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #00d9ff;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: .15em solid #00d9ff;
+      animation: typing 3.5s steps(30, end), blink-caret .75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #00d9ff }
+    }
+    .search-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .search-container input {
+      padding: 0.5rem;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #00d9ff;
+      box-shadow: 0 0 5px #00d9ff;
+      font-size: 1rem;
+    }
+    .tools-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    .tool-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 5px solid #00d9ff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 10px #00d9ff;
+      transition: transform 0.3s;
+      position: relative;
+    }
+    .tool-card:hover {
+      transform: translateY(-5px);
+    }
+    .tool-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #00f0ff;
+    }
+    .tool-icon {
+      font-size: 2rem;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #00d9ff;
+    }
+    .tool-desc {
+      font-size: 0.95rem;
+      color: #e0e0e0;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #000a;
+      font-size: 0.9rem;
+    }
+    .weather-effect {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      z-index: 999;
+    }
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: #00d9ff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #000;
+      box-shadow: 0 0 10px #00d9ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="weather-effect" id="weatherEffect"></div>
+
+<header data-aos="fade-down">
+  <h1>Tools Gratis Ditss Store</h1>
+  <p>Akses cepat dan gratis berbagai tools buatan Ditss</p>
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Cari tools..." onkeyup="filterTools()">
+  </div>
+</header>
+
+<main class="tools-container" id="toolsContainer">
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="100">
+    <i class="fas fa-map-marker-alt tool-icon"></i>
+    <div class="tool-title">Ip checker</div>
+    <div class="tool-desc">Cek Ip publik, lokasi, dan info perangkat kamu.</div>
+    <a href="tools/ip.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="200">
+    <i class="fas fa-flag tool-icon"></i>
+    <div class="tool-title">Kode Negara</div>
+    <div class="tool-desc">Cari tahu kode telepon dari seluruh negara di dunia.</div>
+    <a href="tools/negara.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="300">
+    <i class="fas fa-qrcode tool-icon"></i>
+    <div class="tool-title">Create QR Code</div>
+    <div class="tool-desc">Buat QR Code dari teks, link, nomor WA, dan lainnya secara instan.</div>
+    <a href="tools/qr2.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="300">
+    <i class="fas fa-qrcode tool-icon"></i>
+    <div class="tool-title">Detect QR Code</div>
+    <div class="tool-desc">Detect QR Code dari kamera dan file foto anda.</div>
+    <a href="tools/qr.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="400">
+    <i class="fas fa-lock tool-icon"></i>
+    <div class="tool-title">Encripty Code</div>
+    <div class="tool-desc">Buka enc atau enc file souce code kamu dsini</div>
+    <a href="tools/enc.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="500">
+    <i class="fas fa-key tool-icon"></i>
+    <div class="tool-title">Ebase64</div>
+    <div class="tool-desc">Buat password acak yang kuat dan aman dengan tools ini.</div>
+    <a href="tools/ebase64.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="600">
+    <i class="fas fa-location-arrow tool-icon"></i>
+    <div class="tool-title">Detect Lokasi</div>
+    <div class="tool-desc">Deteksi lokasi Anda saat ini menggunakan GPS atau jaringan.</div>
+    <a href="tools/location.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="700">
+    <i class="fas fa-download tool-icon"></i>
+    <div class="tool-title">Downloader</div>
+    <div class="tool-desc">Download berbagai file dari berbagai sumber dengan mudah.</div>
+    <a href="tools/downloader.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+  <!-- Tambahkan tool lainnya di sini -->
+  <div class="tool-card" data-aos="fade-up" data-aos-delay="800">
+    <i class="fab fa-github tool-icon"></i>
+    <div class="tool-title">Tools Raw</div>
+    <div class="tool-desc">Tools untuk mengakses dan mengelola repositori GitHub.</div>
+    <a href="tools/raw.html" style="margin-top: 10px; display: inline-block; background: #00d9ff; color: #000; padding: 8px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 0 5px #00d9ff;">Buka</a>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Ditss Store. Powered by Ditss.
+</footer>
+
+<!-- Musik & Efek -->
+<audio id="bg-music" loop>
+  <source src="musik1.mp3" type="audio/mp3">
+  <source src="musik2.mp3" type="audio/mp3">
+  <source src="musik3.mp3" type="audio/mp3">
+</audio>
+<button id="music-btn" onclick="toggleMusic()">▶</button>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800 });
+
+  // Cuaca otomatis
+  async function setWeatherEffect() {
+    const effect = document.getElementById('weatherEffect');
+    try {
+      const res = await fetch('https://ipapi.co/json');
+      const data = await res.json();
+      const weather = new Date().getHours();
+      if (weather >= 18 || weather <= 5) {
+        effect.innerHTML = `<img src="https://i.ibb.co/pPnPqxj/rain.gif" style="width:100%;height:100%">`;
+      } else {
+        effect.innerHTML = `<img src="https://i.ibb.co/gdmdbsh/snow.gif" style="width:100%;height:100%">`;
+      }
+    } catch {
+      effect.innerHTML = `<img src="https://i.ibb.co/Yk6ZVcm/weather-default.gif" style="width:100%;height:100%">`;
+    }
+  }
+  setWeatherEffect();
+
+  // Musik
+  const music = document.getElementById('bg-music');
+  const btn = document.getElementById('music-btn');
+  const tracks = [
+    'musik1.mp3',
+    'musik2.mp3',
+    'musik3.mp3'
+  ];
+  let playing = false;
+  let currentTrack = 0;
+
+  function toggleMusic() {
+    if (playing) {
+      music.pause();
+      btn.textContent = '▶';
+    } else {
+      currentTrack = Math.floor(Math.random() * tracks.length);
+      music.src = tracks[currentTrack];
+      music.play();
+      btn.textContent = '⏸';
+    }
+    playing = !playing;
+  }
+
+  // Pencarian Real-time
+  function filterTools() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const toolsContainer = document.getElementById('toolsContainer');
+    const toolCards = toolsContainer.getElementsByClassName('tool-card');
+
+    for (let i = 0; i < toolCards.length; i++) {
+      const title = toolCards[i].getElementsByClassName('tool-title')[0];
+      const desc = toolCards[i].getElementsByClassName('tool-desc')[0];
+      if (title.innerHTML.toLowerCase().indexOf(filter) > -1 || desc.innerHTML.toLowerCase().indexOf(filter) > -1) {
+        toolCards[i].style.display = "";
+      } else {
+        toolCards[i].style.display = "none";
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

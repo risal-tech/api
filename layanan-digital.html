@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ditss Ganteng</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity: 0; animation: fadeUp 1s ease forwards; }
+    .fade-delay-1 { animation-delay: 0.3s; }
+    .fade-delay-2 { animation-delay: 0.6s; }
+    .fade-delay-3 { animation-delay: 0.9s; }
+
+    .neon-box {
+      background-color: rgba(0, 0, 0, 0.3); /* transparan */
+      border: 2px solid #00ffff; /* garis pinggir biru */
+      box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff inset; /* efek neon */
+      backdrop-filter: blur(10px); /* blur background di belakang */
+      transition: 0.3s ease;
+    }
+    .neon-box:hover {
+      box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff inset;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    .typing-text {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #0ff;
+      animation: typing 3s steps(30, end) infinite, blink 0.75s step-end infinite;
+    }
+  </style>
+  <script>
+    function realTimeSearch() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const cards = document.getElementsByClassName("service-card");
+
+      Array.from(cards).forEach((card) => {
+        const title = card.querySelector("h2").textContent.toLowerCase();
+        card.style.display = title.includes(filter) ? "" : "none";
+      });
+    }
+  </script>
+</head>
+<body class="bg-gray-950 text-white font-sans relative">
+
+  <!-- Konten -->
+  <div class="max-w-4xl mx-auto py-12 px-6 text-center">
+    <!-- Logo -->
+    <img src="https://img12.pixhost.to/images/1536/585794873_ditss.jpg" alt="Ditss Logo" class="w-20 h-20 mx-auto mb-4">
+    
+    <!-- Teks Efek Mengetik -->
+    <h1 class="text-4xl font-bold text-cyan-400 mb-2">
+      <span class="typing-text">Layanan Digital Ditss</span>
+    </h1>
+    
+    <!-- Pencarian -->
+    <div class="my-6">
+      <input
+        id="searchInput"
+        type="text"
+        onkeyup="realTimeSearch()"
+        placeholder="Cari produk..."
+        class="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+      />
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6 mt-10">
+      <!-- Layanan Pulsa -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-1 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/smartphone.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Layanan Pulsa</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Pulsa murah untuk semua operator, transaksi cepat dan aman.</p>
+        <a href="layanan-pulsa.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+      <!-- Layanan Topup -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-2 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/money-transfer.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Layanan Topup</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Topup saldo e-wallet seperti OVO, GoPay, DANA, dan lainnya.</p>
+        <a href="layanan-topup.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+      <!-- Aplikasi Streaming -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-3 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/tv.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Aplikasi Streaming</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Berlangganan aplikasi streaming favorit dengan harga terjangkau.</p>
+        <a href="apk-streaming.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mt-10">
+      <!-- Voucher Game -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-4 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/joystick.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Voucher Game</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Topup voucher game dengan pilihan game populer dan harga terbaik.</p>
+        <a href="voucher-game.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+      <!-- Token PLN -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-5 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/electricity.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Token PLN</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Beli token listrik PLN dengan transaksi cepat dan mudah.</p>
+        <a href="token-pln.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+      <!-- Top Up Game -->
+      <div class="neon-box rounded-lg p-4 shadow-lg fade-up fade-delay-6 service-card">
+        <img src="https://img.icons8.com/ios-filled/100/00ffff/game-controller.png" class="w-14 h-14 mb-4 mx-auto"/>
+        <h2 class="text-xl font-bold text-center mb-2">Top Up Game</h2>
+        <p class="text-sm text-gray-400 text-center mb-3">Topup berbagai game online seperti Mobile Legends, PUBG, dan Free Fire.</p>
+        <a href="topup-game.html" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white py-1 rounded">Lihat Detail</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+body {
+  font-family: sans-serif;
+  background: #e9f0ff;
+  padding: 2rem;
+  text-align: center;
+}
+
+.container {
+  background: white;
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+input, button {
+  padding: 10px;
+  font-size: 1rem;
+  margin: 10px;
+  width: 80%;
+}
+
+button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.hasil {
+  margin-top: 20px;
+  text-align: left;
+}

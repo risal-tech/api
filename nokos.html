@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nokos - Ditss Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #001f3f, #000c1f);
+      color: white;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #00f0ff;
+      text-shadow: 0 0 10px #00f0ff;
+      animation: fadeIn 1s ease-out;
+    }
+
+    #search-box {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      box-shadow: 0 0 10px #00f0ff;
+      background: rgba(0,0,0,0.2);
+      color: white;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      animation: fadeIn 1.4s ease-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+      box-shadow: 0 0 15px #00f0ff, 0 0 25px #00f0ff inset;
+      border: 1px solid #00f0ff33;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px #00f0ff, 0 0 35px #00f0ff inset;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #00f0ff;
+    }
+
+    .buy-btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: transparent;
+      border: 2px solid #00f0ff;
+      border-radius: 30px;
+      color: #00f0ff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .buy-btn:hover {
+      background: #00f0ff;
+      color: #000;
+    }
+
+    .card a {
+      position: relative;
+      z-index: 2;
+      text-decoration: none;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 30px auto 0;
+      background-color: transparent;
+      border: 2px solid #00f0ff;
+      color: #00f0ff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .back-btn:hover {
+      background-color: #00f0ff;
+      color: #000;
+    }
+
+    #weather-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #music-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 50%;
+      border: 2px solid #00f0ff;
+      cursor: pointer;
+      z-index: 99;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="weather-effect"></canvas>
+
+  <h1>Nomor Kosong (NOKOS) - Ditss Store</h1>
+  <input type="text" id="search-box" placeholder="Cari negara...">
+  <div class="container" id="card-container"></div>
+
+  <a href="/index.html" class="back-btn">Kembali ke Menu</a>
+
+  <div id="music-control">▶</div>
+  <audio id="background-music" loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/20/audio_b7972934c8.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Efek Kombo Hujan + Salju -->
+  <script>
+    const canvas = document.getElementById('weather-effect');
+    const ctx = canvas.getContext('2d');
+    let width, height, raindrops = [], snowflakes = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function createRaindrops() {
+      raindrops = [];
+      for (let i = 0; i < 100; i++) {
+        raindrops.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          length: Math.random() * 20 + 10,
+          speed: Math.random() * 5 + 4
+        });
+      }
+    }
+
+    function createSnowflakes() {
+      snowflakes = [];
+      for (let i = 0; i < 100; i++) {
+        snowflakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 3 + 1,
+          speed: Math.random() * 1 + 0.5
+        });
+      }
+    }
+
+    function drawRain() {
+      ctx.strokeStyle = "rgba(174,194,224,0.5)";
+      ctx.lineWidth = 1.2;
+      ctx.lineCap = "round";
+      for (let drop of raindrops) {
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+        ctx.stroke();
+
+        drop.y += drop.speed;
+        if (drop.y > height) {
+          drop.y = -drop.length;
+          drop.x = Math.random() * width;
+        }
+      }
+    }
+
+    function drawSnow() {
+      ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+      for (let flake of snowflakes) {
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        flake.y += flake.speed;
+        if (flake.y > height) {
+          flake.y = -flake.radius;
+          flake.x = Math.random() * width;
+        }
+      }
+    }
+
+    function animateWeather() {
+      ctx.clearRect(0, 0, width, height);
+      drawRain();
+      drawSnow();
+      requestAnimationFrame(animateWeather);
+    }
+
+    createRaindrops();
+    createSnowflakes();
+    animateWeather();
+  </script>
+
+  <!-- Musik Kontrol -->
+  <script>
+    const music = document.getElementById('background-music');
+    const control = document.getElementById('music-control');
+    let playing = false;
+
+    control.addEventListener('click', () => {
+      playing ? music.pause() : music.play();
+      control.textContent = playing ? '▶' : '⏸';
+      playing = !playing;
+    });
+  </script>
+
+  <!-- Data Nokos -->
+  <script>
+    const countries = [
+      { name: "Indonesia", price: "3k" },
+      { name: "Malaysia", price: "4k" },
+      { name: "Philipina", price: "4k" },
+      { name: "Russia", price: "11k" },
+      { name: "China", price: "18k" },
+      { name: "Francis", price: "100k" },
+      { name: "USA", price: "23k" },
+      { name: "Australia", price: "53k" },
+      { name: "India", price: "13k" },
+      { name: "Belanda", price: "14k" },
+      { name: "Turki", price: "60k" },
+      { name: "Thailand", price: "8k" },
+      { name: "Inggris", price: "10k" },
+      { name: "Colombia", price: "12k" },
+      { name: "Jerman", price: "38k" },
+      { name: "Brazil", price: "20k" },
+      { name: "Jepang", price: "156k" },
+      { name: "Bhutan", price: "9k" },
+      { name: "khazastan", price: "35"}
+    ];
+
+    const cardContainer = document.getElementById("card-container");
+    const searchBox = document.getElementById("search-box");
+
+    function renderCards(filter = "") {
+      cardContainer.innerHTML = "";
+      countries
+        .filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(({ name, price }) => {
+          const message = `Halo, saya ingin beli nokos negara *${name}* dengan harga *${price}*.`;
+          const waLink = `https://wa.me/6281513607731?text=${encodeURIComponent(message)}`;
+          const card = `
+            <div class="card">
+              <h3>${name}</h3>
+              <p>Harga: ${price}</p>
+              <a href="${waLink}" target="_blank">
+                <button class="buy-btn">Beli</button>
+              </a>
+            </div>
+          `;
+          cardContainer.innerHTML += card;
+        });
+    }
+
+    renderCards();
+    searchBox.addEventListener("input", (e) => {
+      renderCards(e.target.value);
+    });
+  </script>
+</body>
+</html>

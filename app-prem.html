@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikasi Premium - Ditss Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0c0c0c;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, #007aff, #00d9ff);
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .app-box {
+      background-color: #1a1a1a;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .app-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.7);
+    }
+
+    .app-box img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    .app-box h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .app-box p {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+
+    .btn-premium {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn-premium:hover {
+      background-color: #009ed9;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #007aff;
+      padding: 10px;
+      border-radius: 50%;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    /* Glow colors per app */
+    .capcut { box-shadow: 0 0 15px #ffffff77; }
+    .alight { box-shadow: 0 0 15px #ff009977; }
+    .netflix { box-shadow: 0 0 15px #ff000077; }
+    .bstation { box-shadow: 0 0 15px #00c3ff77; }
+    .wetv { box-shadow: 0 0 15px #007aff77; }
+    .spotify { box-shadow: 0 0 15px #1db95477; }
+    .youtube { box-shadow: 0 0 15px #ff000077; }
+    .iqiyi { box-shadow: 0 0 15px #98ff0077; }
+    .viu { box-shadow: 0 0 15px #ffd70077; }
+    .vidio { box-shadow: 0 0 15px #ff408177; }
+    .canva { box-shadow: 0 0 15px #00c4cc77; }
+
+    .music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1db954;
+      border-radius: 50%;
+      padding: 16px;
+      box-shadow: 0 0 20px #1db95488;
+    }
+
+    .music-player audio {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+  <header>Aplikasi Premium - Ditss Store</header>
+
+  <div class="app-container">
+    <div class="app-box capcut">
+      <img src="https://img12.pixhost.to/images/1498/585015950_ditss.jpg" alt="Capcut" />
+      <h3>Capcut Premium</h3>
+      <p>Editing profesional tanpa watermark</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box alight">
+      <img src="https://img.icons8.com/color/96/alight-motion.png" alt="Alight Motion" />
+      <h3>Alight Motion</h3>
+      <p>Motion graphic berkualitas</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box netflix">
+      <img src="https://img.icons8.com/color/96/netflix.png" alt="Netflix" />
+      <h3>Netflix</h3>
+      <p>Akses film & series eksklusif</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box bstation">
+      <img src="https://img.icons8.com/color/96/bilibili.png" alt="Bstation" />
+      <h3>Bstation</h3>
+      <p>Streaming anime dan Asia</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box wetv">
+      <img src="https://img.icons8.com/color/96/we-tv.png" alt="WeTV" />
+      <h3>WeTV VIP</h3>
+      <p>Drama Asia tanpa iklan</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box spotify">
+      <img src="https://img.icons8.com/color/96/spotify.png" alt="Spotify" />
+      <h3>Spotify Premium</h3>
+      <p>Musik bebas iklan & offline</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box youtube">
+      <img src="https://img.icons8.com/color/96/youtube-play.png" alt="YouTube" />
+      <h3>YouTube Premium</h3>
+      <p>Tanpa iklan & bisa minimize</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box iqiyi">
+      <img src="https://img.icons8.com/color/96/iqiyi.png" alt="iQIYI" />
+      <h3>iQIYI VIP</h3>
+      <p>Drama dan film Asia HD</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box viu">
+      <img src="https://img.icons8.com/color/96/viu-tv.png" alt="VIU" />
+      <h3>VIU Premium</h3>
+      <p>Drama Korea & Asia bebas iklan</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box vidio">
+      <img src="https://img.icons8.com/color/96/vidio.png" alt="Vidio" />
+      <h3>Vidio.com</h3>
+      <p>Liga lokal & film eksklusif</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+    <div class="app-box canva">
+      <img src="https://img.icons8.com/color/96/canva.png" alt="Canva" />
+      <h3>Canva Pro</h3>
+      <p>Template premium & desain bebas</p>
+      <a href="#" class="btn-premium">Lihat Harga</a>
+    </div>
+  </div>
+
+  <div class="music-player">
+    <audio controls autoplay loop>
+      <source src="https://cdn.pixabay.com/audio/2023/03/29/audio_8c8faad119.mp3" type="audio/mpeg">
+    </audio>
+    <i class="fas fa-music" style="color:white"></i>
+  </div>
+
+  <footer>
+    Powered by Ditss
+  </footer>
+</body>
+
+</html>
+

@@ -1,0 +1,88 @@
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { opacity: 0; animation: fadeUp 1s ease forwards; }
+.fade-delay-1 { animation-delay: 0.3s; }
+.fade-delay-2 { animation-delay: 0.6s; }
+.fade-delay-3 { animation-delay: 0.9s; }
+
+.neon-box {
+  background-color: rgba(0, 0, 0, 0.3); /* transparan */
+  border: 2px solid #00ffff; /* garis pinggir biru */
+  box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff inset; /* efek neon */
+  backdrop-filter: blur(10px); /* blur background di belakang */
+  transition: 0.3s ease;
+}
+.neon-box:hover {
+  box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff inset;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+.typing-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #0ff;
+  animation: typing 3s steps(30, end) infinite, blink 0.75s step-end infinite;
+}
+
+@keyframes moveLeftRight {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
+}
+.moving-text {
+  animation: moveLeftRight 5s infinite;
+}
+
+.social-icon {
+  transition: 0.3s;
+  position: relative;
+}
+.social-icon:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.social-icon:hover:before {
+  opacity: 1;
+}
+
+.weather-btn {
+  @apply px-2 py-1 rounded text-sm font-bold text-white;
+  position: relative;
+}
+.weather-btn img {
+  width: 24px;
+  height: 24px;
+}
+.weather-btn.active img {
+  animation: bounce 1s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
