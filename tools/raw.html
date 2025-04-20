@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ditss Tools - Short Cute</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2.8em;
+      color: #ffffff;
+      text-shadow: 2px 2px #00000066;
+    }
+    .container {
+      margin: 30px auto;
+      width: 90%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    label {
+      display: block;
+      margin: 20px 0 8px;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #ffffffee;
+      color: #003049;
+      box-shadow: inset 0 0 5px #00000011;
+    }
+    button {
+      background: #00e5ff;
+      color: #003049;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1em;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00bcd4;
+      color: white;
+    }
+    #result {
+      background: #ffffffcc;
+      color: #0072ff;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+    .footer {
+      margin: 40px auto 20px;
+      font-size: 0.9em;
+      text-align: center;
+      color: #e0f7ff;
+    }
+    .github-logo {
+      width: 36px;
+      margin: 25px auto 0;
+    }
+    .github-logo img {
+      width: 100%;
+      filter: drop-shadow(0 0 5px #00e5ff);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Ditss Tools<br>Short Cute</h1>
+  </div>
+  <div class="container">
+    <label for="githubLink">GitHub Link</label>
+    <input type="text" id="githubLink" placeholder="https://github.com/..." />
+    <button onclick="convertLink()">Convert to Raw</button>
+    <label for="rawLink">Raw Link</label>
+    <div id="result">result</div>
+    <button onclick="copyResult()">Copy</button>
+    <div class="github-logo">
+      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Logo">
+    </div>
+  </div>
+
+  <div class="footer">
+    Powered by <strong>Ditss</strong> • Tools
+  </div>
+
+  <script>
+    function convertLink() {
+      const input = document.getElementById('githubLink').value.trim();
+      let rawLink = '';
+
+      if (input.includes('github.com') && input.includes('/blob/')) {
+        rawLink = input
+          .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+          .replace('/blob/', '/');
+      } else {
+        rawLink = 'Invalid GitHub blob URL!';
+      }
+
+      document.getElementById('result').innerText = rawLink;
+    }
+
+    function copyResult() {
+      const text = document.getElementById('result').innerText;
+      navigator.clipboard.writeText(text);
+      alert('Link copied!');
+    }
+  </script>
+</body>
+</html>
