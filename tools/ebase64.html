@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tools - Encode/Decode</title>
+  <style>
+    :root {
+      --glow-color: #00ffe0;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: var(--glow-color);
+      font-family: 'Courier New', monospace;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 255, 204, 0.05);
+      backdrop-filter: blur(5px);
+      border-radius: 12px;
+      border: 1px solid var(--glow-color);
+      margin-top: 50px;
+      box-shadow: 0 0 30px var(--glow-color);
+    }
+
+    h1 {
+      color: var(--glow-color);
+      text-shadow: 0 0 10px var(--glow-color);
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      background: black;
+      color: var(--glow-color);
+      border: 1px solid var(--glow-color);
+      padding: 10px;
+      resize: none;
+      font-family: monospace;
+      font-size: 16px;
+      box-shadow: 0 0 10px var(--glow-color) inset;
+    }
+
+    button {
+      margin-top: 10px;
+      margin-bottom: 15px;
+      background: transparent;
+      border: 1px solid var(--glow-color);
+      color: var(--glow-color);
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: monospace;
+      text-shadow: 0 0 5px var(--glow-color);
+      box-shadow: 0 0 10px var(--glow-color);
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: var(--glow-color);
+      color: black;
+      transform: scale(1.05);
+    }
+
+    #output {
+      margin-top: 15px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px dashed var(--glow-color);
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .powered {
+      margin-top: 40px;
+      font-size: 14px;
+      color: var(--glow-color);
+      opacity: 0.5;
+    }
+
+    .theme-switcher {
+      margin-top: 20px;
+    }
+
+    .theme-btn {
+      border: 1px solid #fff;
+      margin: 5px;
+      padding: 5px 15px;
+      cursor: pointer;
+      background: transparent;
+      color: #fff;
+      font-family: monospace;
+    }
+
+    .theme-btn:hover {
+      text-shadow: 0 0 5px white;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="container">
+  <h1> Base64 Encoder / Decoder</h1>
+
+  <div class="theme-switcher">
+    <span>Pilih Tema:</span>
+    <button class="theme-btn" onclick="setTheme('#00ffe0')">Biru</button>
+    <button class="theme-btn" onclick="setTheme('#ff00aa')">Pink</button>
+    <button class="theme-btn" onclick="setTheme('#00ff00')">Ijo</button>
+    <button class="theme-btn" onclick="setTheme('#ff3300')">Merah</button>
+  </div>
+
+  <textarea id="input" placeholder="Masukkan teks..."></textarea><br>
+
+  <button onclick="encode()">Encode (Base64)</button>
+  <button onclick="decode()">Decode (Base64)</button>
+
+  <div id="output"></div>
+
+  <button onclick="copyOutput()">Salin Output</button>
+<button onclick="clearInput()">Clear Input</button>
+
+ <!-- CUKUP GANTI BAGIAN STYLE DAN POWERED DI BAWAH INI -->
+
+<style>
+  :root {
+    --glow-color: #00ffe0;
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    color: var(--glow-color);
+    font-family: 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 50px;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 255, 204, 0.05);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    border: 1px solid var(--glow-color);
+    box-shadow: 0 0 30px var(--glow-color);
+  }
+
+  h1 {
+    color: var(--glow-color);
+    text-shadow: 0 0 10px var(--glow-color);
+  }
+
+  textarea {
+    width: 100%;
+    height: 120px;
+    background: black;
+    color: var(--glow-color);
+    border: 1px solid var(--glow-color);
+    padding: 10px;
+    resize: none;
+    font-family: monospace;
+    font-size: 16px;
+    box-shadow: 0 0 10px var(--glow-color) inset;
+    box-sizing: border-box;
+  }
+
+  button {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background: transparent;
+    border: 1px solid var(--glow-color);
+    color: var(--glow-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: monospace;
+    text-shadow: 0 0 5px var(--glow-color);
+    box-shadow: 0 0 10px var(--glow-color);
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: var(--glow-color);
+    color: black;
+    transform: scale(1.05);
+  }
+
+  #output {
+    margin-top: 15px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px dashed var(--glow-color);
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .powered {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: var(--glow-color);
+    opacity: 0.5;
+  }
+
+  .theme-switcher {
+    margin-top: 20px;
+  }
+
+  .theme-btn {
+    border: 1px solid #fff;
+    margin: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    font-family: monospace;
+  }
+
+  .theme-btn:hover {
+    text-shadow: 0 0 5px white;
+  }
+</style>
+
+<!-- CUKUP GANTI BAGIAN STYLE & POWERED SAJA -->
+
+<!-- bagian powered: -->
+<div class="powered">powered by ditss</div>
+
+<script>
+  function encode() {
+    let input = document.getElementById('input').value;
+    let encoded = btoa(unescape(encodeURIComponent(input)));
+    document.getElementById('output').innerText = encoded;
+  }
+
+  function decode() {
+    let input = document.getElementById('input').value;
+    try {
+      let decoded = decodeURIComponent(escape(atob(input)));
+      document.getElementById('output').innerText = decoded;
+    } catch (e) {
+      document.getElementById('output').innerText = 'Gagal decode. Cek input!';
+    }
+  }
+
+  function copyOutput() {
+    const output = document.getElementById('output');
+    navigator.clipboard.writeText(output.innerText).then(() => {
+      alert("Output disalin!");
+    });
+  }
+
+  function setTheme(color) {
+    document.documentElement.style.setProperty('--glow-color', color);
+  }
+  
+  function clearInput() {
+  document.getElementById('input').value = '';
+  document.getElementById('output').innerText = '';
+}
+
+  // MATRIX EFFECT
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*".split("");
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = [];
+
+  for (let i = 0; i < columns; i++)
+    drops[i] = Math.random() * canvas.height;
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--glow-color');
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+        drops[i] = 0;
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 50);
+
+  window.addEventListener('resize', () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+  });
+</script>
+
+</body>
+</html>

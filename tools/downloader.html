@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Downloader Sosmed - Ditss Store</title>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #001f3f;
+      color: white;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0, 0, 50, 0.7);
+      box-shadow: 0 0 20px cyan;
+    }
+    h1 {
+      font-size: 2.3rem;
+      color: #00d9ff;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 15px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 15px #00d9ff;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-bottom: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00d9ff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00d9ff;
+    }
+    .result {
+      margin-top: 1.5rem;
+      display: none;
+      padding: 1rem;
+      background: rgba(0,0,0,0.3);
+      border-left: 4px solid lime;
+      border-radius: 10px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin: 2rem auto;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      background: #00aaff;
+      box-shadow: 0 0 8px #00aaff;
+    }
+  </style>
+</head>
+<body>
+
+<header data-aos="fade-down">
+  <h1>Downloader Sosial Media</h1>
+  <p>Unduh video dari YouTube, TikTok, IG, Facebook, dan lainnya dengan mudah!</p>
+</header>
+
+<div class="container" data-aos="fade-up">
+  <label for="platform">Pilih Platform:</label>
+  <select id="platform">
+    <option value="youtube">YouTube</option>
+    <option value="tiktok">TikTok</option>
+    <option value="instagram">Instagram</option>
+    <option value="facebook">Facebook</option>
+    <option value="twitter">Twitter (X)</option>
+    <option value="pinterest">Pinterest</option>
+    <option value="soundcloud">SoundCloud</option>
+    <option value="threads">Threads</option>
+  </select>
+
+  <label for="url">Masukkan Link Video:</label>
+  <input type="text" id="url" placeholder="Contoh: https://tiktok.com/..." />
+  <button onclick="download()">Download Sekarang</button>
+
+  <div class="result" id="result">
+    <p><strong>Platform:</strong> <span id="platformText">-</span></p>
+    <p><strong>Status:</strong> Berhasil diproses!</p>
+    <a href="#" download class="back-btn">Download File</a>
+  </div>
+</div>
+
+<div style="text-align:center">
+  <a href="../tools.html" class="back-btn">← Kembali ke Tools</a>
+</div>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800 });
+
+  function download() {
+    const url = document.getElementById("url").value.trim();
+    const platform = document.getElementById("platform").value;
+    const platformText = document.getElementById("platformText");
+    const result = document.getElementById("result");
+
+    if (!url || !url.startsWith("http")) {
+      alert("Masukkan link yang valid!");
+      return;
+    }
+
+    // Simulasi proses download
+    platformText.innerText = platform.charAt(0).toUpperCase() + platform.slice(1);
+    result.style.display = "block";
+  }
+</script>
+
+</body>
+</html>
