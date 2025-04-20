@@ -236,6 +236,10 @@
           "name": "FF Stalk",
           "desc": "Stalk free fire account",
           "path": "/stalk/ff?apikey=&id="
+        },{
+          "name": "Roblox Stalk",
+          "desc": "Stalk Roblox account",
+          "path": "/stalk/roblox?apikey=&id="
         }
       ]
     },
