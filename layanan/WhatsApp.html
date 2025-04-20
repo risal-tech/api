@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jasa Bot WhatsApp | Ditss Store</title>
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #0d1b2a;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 90%;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .card {
+      background: rgba(0, 255, 255, 0.08);
+      border: 1px solid #00ffff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 15px #00ffff, 0 0 30px rgba(0, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #00ffff;
+    }
+    .btn {
+      display: inline-block;
+      background: #00bcd4;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      margin-top: 1rem;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .btn i {
+      margin-right: 8px; /* Jarak antara ikon dan teks */
+    }
+    .btn:hover {
+      background: #0097a7;
+    }
+    .custom-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(0, 255, 255, 0.08);
+      border: 1px solid #00ffff;
+      border-radius: 15px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 15px #00ffff, 0 0 30px rgba(0, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+    .custom-card p {
+      margin: 0;
+    }
+    .custom-card a {
+      margin-top: 1rem;
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .custom-card a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: rgba(0, 255, 255, 0.08);
+      border-top: 1px solid #00ffff;
+      color: #00ffff;
+      font-size: 0.9rem;
+    }
+    .back-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #00ffff;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffff;
+      z-index: 2;
+    }
+
+    /* Media Query for smaller screens */
+    @media (max-width: 768px) {
+      .card {
+        padding: 1rem;
+      }
+      .card h3 {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 6px 15px;
+      }
+      .custom-card {
+        padding: 0.8rem;
+      }
+      .custom-card a {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas Effects -->
+  <canvas id="salju" width="100%" height="100%"></canvas>
+  <canvas id="hujan" width="100%" height="100%"></canvas>
+  <canvas id="kabut" width="100%" height="100%"></canvas>
+
+  <div class="section">
+    <h1 class="text-3xl font-bold text-center mb-6">Layanan Bot WhatsApp</h1>
+
+    <div class="card">
+      <h3><i class="fas fa-magic"></i> Tambahkan Fitur Keren untuk Botmu</h3>
+      <p>Ingin bot WhatsApp-mu lebih canggih? Tambahkan fitur seperti game, menu AI, edukasi, bahkan donasi! Semua bisa sesuai kebutuhanmu.</p>
+      <a href="https://wa.me/6281513607731" class="btn">
+        <i class="fas fa-plus-circle"></i> Buat Fitur Sekarang
+      </a>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-tools"></i> Fix Error Bot Tanpa Ribet</h3>
+      <p>Pusing karena bot WhatsApp error? Kami siap membantu memperbaikinya dengan cepat dan tepat!</p>
+      <a href="https://wa.me/6281513607731" class="btn">
+        <i class="fas fa-wrench"></i> Perbaiki Sekarang
+      </a>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-robot"></i> Bangun Bot WhatsApp Impianmu</h3>
+      <p>Mau mulai dari awal? Kami bantu buat bot WhatsApp yang sesuai dengan ide dan keinginanmu!</p>
+      <a href="https://wa.me/6281513607731" class="btn">
+        <i class="fas fa-lightbulb"></i> Konsultasi Sekarang
+      </a>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-link"></i> Hubungkan Website & Bot Jadi Satu</h3>
+      <p>Perlu integrasi website dan bot WhatsApp? Cocok untuk toko online atau dashboard pengguna. Solusi lengkap hanya di sini!</p>
+      <a href="https://wa.me/6281513607731" class="btn">
+        <i class="fas fa-link"></i> Coba Sekarang
+      </a>
+    </div>
+
+    <!-- Custom Cards -->
+    <div class="custom-card">
+      <p><i class="fas fa-server"></i> Bingung cari panel hosting yang lengkap?</p>
+      <a href="pterodactyl.html">Temukan Solusinya</a>
+    </div>
+
+    <div class="custom-card">
+      <p><i class="fas fa-cloud"></i> Butuh VPS yang cepat, stabil, dan hemat di kantong?</p>
+      <a href="vps.html">Lihat Penawaran VPS</a>
+    </div>
+  </div>
+
+  <a href="../index.html" class="back-btn">Kembali</a>
+
+  <!-- Footer -->
+  <div class="footer">
+    Powered By Ditss
+  </div>
+
+  <script>
+    // Efek Salju
+    const canvasSalju = document.getElementById('salju');
+    const ctxSalju = canvasSalju.getContext('2d');
+    let snowflakes = [];
+    function salju() {
+      ctxSalju.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      snowflakes.forEach((flake, i) => {
+        flake.y += flake.speed;
+        flake.x += Math.sin(flake.y * 0.01);
+        ctxSalju.beginPath();
+        ctxSalju.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+        ctxSalju.fillStyle = '#ffffff';
+        ctxSalju.fill();
+        if (flake.y > window.innerHeight) snowflakes[i] = newFlake();
+      });
+      requestAnimationFrame(salju);
+    }
+    function newFlake() {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: 0,
+        radius: Math.random() * 3 + 1,
+        speed: Math.random() * 3 + 1
+      };
+    }
+    for (let i = 0; i < 100; i++) snowflakes.push(newFlake());
+    salju();
+
+    // Efek Hujan
+    const canvasHujan = document.getElementById('hujan');
+    const ctxHujan = canvasHujan.getContext('2d');
+    let drops = [];
+    function hujan() {
+      ctxHujan.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      drops.forEach((drop, i) => {
+        ctxHujan.beginPath();
+        ctxHujan.moveTo(drop.x, drop.y);
+        ctxHujan.lineTo(drop.x, drop.y + drop.length);
+        ctxHujan.strokeStyle = 'rgba(0, 200, 255, 0.4)';
+        ctxHujan.stroke();
+        drop.y += drop.speed;
+        if (drop.y > window.innerHeight) drops[i] = newDrop();
+      });
+      requestAnimationFrame(hujan);
+    }
+    function newDrop() {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: 0,
+        length: Math.random() * 20 + 10,
+        speed: Math.random() * 10 + 4
+      };
+    }
+    for (let i = 0; i < 80; i++) drops.push(newDrop());
+    hujan();
+
+    // Efek Kabut
+    const canvasKabut = document.getElementById('kabut');
+    const ctxKabut = canvasKabut.getContext('2d');
+    function kabut() {
+      ctxKabut.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const grd = ctxKabut.createRadialGradient(window.innerWidth/2, window.innerHeight/2, 100, window.innerWidth/2, window.innerHeight/2, window.innerWidth);
+      grd.addColorStop(0, "rgba(255,255,255,0.05)");
+      grd.addColorStop(1, "rgba(255,255,255,0)");
+      ctxKabut.fillStyle = grd;
+      ctxKabut.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      requestAnimationFrame(kabut);
+    }
+    kabut();
+
+    // Resize Canvas
+    window.addEventListener('resize', () => {
+      canvasSalju.width = canvasKabut.width = canvasHujan.width = window.innerWidth;
+      canvasSalju.height = canvasKabut.height = canvasHujan.height = window.innerHeight;
+    });
+    window.dispatchEvent(new Event('resize'));
+  </script>
+</body>
+</html>
