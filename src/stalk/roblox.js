@@ -77,7 +77,7 @@ const app = express();
 app.use(express.json());
 
 // Define the Roblox stalk endpoint
-app.get('/api/stalk/roblox', async (req, res) => {
+app.get('/stalk/roblox', async (req, res) => {
   const { apikey, userId } = req.query;
 
   // Validate API key
