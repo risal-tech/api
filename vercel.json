@@ -14,17 +14,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/download", "destination": "/download.html" },
-    { "source": "/pulsa", "destination": "/pulsa.html" },
-    { "source": "/panel", "destination": "/panel.html" },
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/app-prem", "destination": "/app-prem.html" },
-    { "source": "/kuota", "destination": "/kuota.html" },
-    { "source": "/voucher", "destination": "/voucher.html" },
-    { "source": "/nokos", "destination": "/nokos.html" },
-    { "source": "/vps", "destination": "/vps.html" }
-  ]
+  }
 }
