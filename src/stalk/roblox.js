@@ -71,15 +71,22 @@ async function robloxStalk(userId) {
 
 // Serverless function handler
 module.exports = async (req, res) => {
-  const { apikey, userId } = req.query;
+  const { query } = req;
 
-  // Validate API key
+  // Pastikan req.query tidak undefined
+  if (!query) {
+    return res.status(400).json({ status: false, error: 'Query parameters are missing' });
+  }
+
+  const { apikey, userId } = query;
+
+  // Validasi API key
   const validApiKeys = (process.env.API_KEY || '').split(',');
   if (!validApiKeys.includes(apikey)) {
     return res.status(403).json({ status: false, error: 'Invalid API key' });
   }
 
-  // Validate userId parameter
+  // Validasi userId parameter
   if (!userId) {
     return res.status(400).json({ status: false, error: 'User ID parameter is required' });
   }
