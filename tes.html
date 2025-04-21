@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dasboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+
+    #loading-screen {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      background: #020617;
+      z-index: 9999;
+      color: #fff;
+    }
+
+    .container {
+      display: none;
+      padding: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px;
+      background: #1e1b4b;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #6366f1;
+    }
+
+    .api-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .api-card {
+      padding: 15px;
+      background: #1e1b4b;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .api-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .api-card .status {
+      margin-top: 10px;
+      padding: 5px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .status.danger {
+      background: #ef4444;
+    }
+
+    .status.warning {
+      background: #f59e0b;
+    }
+
+    .status.success {
+      background: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">Loading...</div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="tabs" id="tabs"></div>
+    <div class="api-list" id="api-list"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const loadingScreen = document.getElementById('loading-screen');
+      const container = document.querySelector('.container');
+      const tabsContainer = document.getElementById('tabs');
+      const apiList = document.getElementById('api-list');
+
+      // Simulate loading settings.json
+      fetch('/settings.json')
+        .then(response => response.json())
+        .then(settings => {
+          const apis = settings.categories;
+
+          // Create Tabs
+          apis.forEach((category, index) => {
+            const tab = document.createElement('button');
+            tab.className = `tab ${index === 0 ? 'active' : ''}`;
+            tab.innerText = category.name;
+            tab.addEventListener('click', () => renderAPIs(category.items));
+            tabsContainer.appendChild(tab);
+          });
+
+          // Render Initial APIs
+          renderAPIs(apis[0].items);
+
+          // Hide Loading and Show Content
+          loadingScreen.style.display = 'none';
+          container.style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error loading settings:', error);
+          loadingScreen.innerText = 'Failed to load settings. Please try again.';
+        });
+
+      // Render APIs
+      function renderAPIs(items) {
+        apiList.innerHTML = '';
+        items.forEach(api => {
+          const card = document.createElement('div');
+          card.className = 'api-card';
+          card.innerHTML = `
+            <h3>${api.name}</h3>
+            <p>${api.desc}</p>
+            <div class="status ${
+              api.status?.toLowerCase().includes('maintenance')
+                ? 'danger'
+                : api.status?.toLowerCase().includes('beta')
+                ? 'warning'
+                : 'success'
+            }">${api.status || 'Active'}</div>
+          `;
+          apiList.appendChild(card);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
