@@ -722,76 +722,82 @@
       });
     });
 
-    async function loadSettings() {
-      const tabsContainer = document.getElementById("tabs");
-      const apiList = document.getElementById("api-list");
-      let currentEndpoint = "";
+  // Perubahan pada bagian fetch, disni
+  async function loadSettings() {
+    const tabsContainer = document.getElementById('tabs');
+    const apiList = document.getElementById('api-list');
+    let currentEndpoint = '';
 
-      const settings = await fetch("/settings.json").then(res => res.json());
-      const apis = settings.endpoints;
-
-      const setContent = (id, property, value) => {
-        const el = document.getElementById(id);
-        if (el) el[property] = value;
-      };
-
-      setContent("page", "textContent", settings.pagetitle || "");
-      setContent("credits", "textContent", `© ${new Date().getFullYear()} Powered by ${settings.creator || ""}`);
-      setContent("apiTitle", "textContent", settings.apititle || "");
-
-      document.getElementById("githubLink").href = settings.github || "#";
-      document.getElementById("whatsappLink").href = settings.whatsapp || "#";
-      document.getElementById("youtubeLink").href = settings.youtube || "#";
-
-      // Create tabs
-      Object.keys(apis).forEach((key, index) => {
-        const button = document.createElement("button");
-        button.className = `tab ${index === 0 ? "active" : ""}`;
-        button.dataset.tab = key;
-        button.innerText = key.charAt(0).toUpperCase() + key.slice(1);
-        tabsContainer.appendChild(button);
-      });
-
-      // Render API cards
-      function renderAPIs(category) {
-        apiList.innerHTML = "";
-        apis[category].forEach((api, i) => {
-          const card = document.createElement("div");
-          card.className = "api-card fade-in";
-          card.style.animationDelay = `${i * 0.1}s`;
-          
-          // Determine status class
-          let statusClass = "";
-          if (api.status.toLowerCase().includes("maintenance")) statusClass = "danger";
-          else if (api.status.toLowerCase().includes("beta")) statusClass = "warning";
-          else statusClass = "";
-          
-          card.innerHTML = `
-            <div class="api-info">
-              <h3>${api.name}</h3>
-              <p>${api.desc}</p>
-              <span class="status ${statusClass}">${api.status}</span>
-            </div>
-            <button class="play-button" data-endpoint="${api.path}" data-api="${api.name}" data-desc="${api.desc}">
-              <i class="fa-solid fa-play"></i> Try it now
-            </button>
-          `;
-          apiList.appendChild(card);
-        });
-      }
-
-      // Initial render
-      renderAPIs(Object.keys(apis)[0]);
-
-      // Tab click event
-      tabsContainer.addEventListener("click", (e) => {
-        if (e.target.classList.contains("tab")) {
-          document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-          e.target.classList.add("active");
-          renderAPIs(e.target.dataset.tab);
+    // Ubah nama file dari settings.json ke homes.json
+    const settings = await fetch('/homes.json')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Homes file not found or invalid');
         }
+        return res.json();
       });
 
+    const apis = settings.endpoints;
+
+    const setContent = (id, property, value) => {
+      const el = document.getElementById(id);
+      if (el) el[property] = value;
+    };
+
+    setContent('page', 'textContent', settings.pagetitle || '');
+    setContent('credits', 'textContent', `© ${new Date().getFullYear()} Powered by ${settings.creator || ''}`);
+    setContent('apiTitle', 'textContent', settings.apititle || '');
+
+    document.getElementById('githubLink').href = settings.github || '#';
+    document.getElementById('whatsappLink').href = settings.whatsapp || '#';
+    document.getElementById('youtubeLink').href = settings.youtube || '#';
+
+    // Create tabs
+    Object.keys(apis).forEach((key, index) => {
+      const button = document.createElement('button');
+      button.className = `tab ${index === 0 ? 'active' : ''}`;
+      button.dataset.tab = key;
+      button.innerText = key.charAt(0).toUpperCase() + key.slice(1);
+      tabsContainer.appendChild(button);
+    });
+
+    // Render API cards
+    function renderAPIs(category) {
+      apiList.innerHTML = '';
+      apis[category].forEach((api, i) => {
+        const card = document.createElement('div');
+        card.className = 'api-card fade-in';
+        card.style.animationDelay = `${i * 0.1}s`;
+
+        let statusClass = '';
+        if (api.status.toLowerCase().includes('maintenance')) statusClass = 'danger';
+        else if (api.status.toLowerCase().includes('beta')) statusClass = 'warning';
+
+        card.innerHTML = `
+          <div class="api-info">
+            <h3>${api.name}</h3>
+            <p>${api.desc}</p>
+            <span class="status ${statusClass}">${api.status}</span>
+          </div>
+          <button class="play-button" data-endpoint="${api.path}" data-api="${api.name}" data-desc="${api.desc}">
+            <i class="fa-solid fa-play"></i> Try it now
+          </button>
+        `;
+        apiList.appendChild(card);
+      });
+    }
+
+    renderAPIs(Object.keys(apis)[0]);
+
+    // Tab click event
+    tabsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tab')) {
+        document.querySelectorAll('.tab').forEach((tab) => tab.classList.remove('active'));
+        e.target.classList.add('active');
+        renderAPIs(e.target.dataset.tab);
+      }
+    });
+  }
       // Event listeners
       document.addEventListener("click", (e) => {
         // Play button click
