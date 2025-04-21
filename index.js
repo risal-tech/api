@@ -57,6 +57,20 @@ app.use((req, res, next) => {
   next();
 });
 
+// Auto handle URL tanpa .html untuk file di folder api-page
+app.get('/:page', (req, res, next) => {
+  const filePath = path.join(__dirname, 'api-page', `${req.params.page}.html`);
+  if (fs.existsSync(filePath)) {
+    return res.sendFile(filePath);
+  }
+  next(); // kalau file nggak ada, lanjut ke route lain
+});
+
+// Default home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'api-page', 'index.html'));
+});
+
 // Load dynamic routes
 let totalRoutes = 0;
 const apiFolder = path.join(__dirname, './src');
@@ -77,11 +91,6 @@ fs.readdirSync(apiFolder).forEach((subfolder) => {
 
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Load Complete! ✓ '));
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Total Routes Loaded: ${totalRoutes} `));
-
-// Default home page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'api-page', 'index.html'));
-});
 
 // 404 handler
 app.use((req, res) => {
