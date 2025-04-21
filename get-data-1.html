@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pagetitle"></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    :root {
+      --primary-bg: #ffffff;
+      --secondary-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-light: #3b82f6;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+    }
+    
+    body {
+      background-color: var(--secondary-bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-primary);
+    }
+    
+    #loading-screen {
+      transition: opacity 0.5s ease, visibility 0.5s;
+      background-color: var(--primary-bg);
+    }
+    
+    #loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .sidebar {
+      background-color: var(--primary-bg);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+      border-right: 1px solid #e2e8f0;
+    }
+    
+    .card {
+      background-color: var(--card-bg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .card:hover {
+      transform: translateY(-3px);
+      
+    }
+    
+    .menu-item {
+      transition: all 0.2s ease;
+    }
+    
+    .menu-item:hover {
+      background-color: #f1f5f9;
+      color: var(--accent);
+    }
+    
+    .dropdown-content {
+      transition: max-height 0.3s ease, opacity 0.2s ease;
+      overflow: hidden;
+    }
+    
+    .dropdown-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+    
+    .dropdown-content.expanded {
+      max-height: 500px;
+      opacity: 1;
+    }
+    
+    .chevron {
+      transition: transform 0.3s ease;
+    }
+    
+    .chevron.rotated {
+      transform: rotate(180deg);
+    }
+    
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    
+
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-light);
+    }
+    
+    .active-indicator {
+      width: 8px;
+      height: 8px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(0.95); opacity: 1; }
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .status-active {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+    
+    .battery-high {
+      color: #16a34a;
+    }
+    
+    .battery-medium {
+      color: #ca8a04;
+    }
+    
+    .battery-low {
+      color: #dc2626;
+    }
+    
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: #eff6ff;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://kit.fontawesome.com/b4ed7c902a.js" crossorigin="anonymous"></script>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 flex items-center justify-center z-50 bg-white">
+    <div class="text-center space-y-4">
+      <div class="spinner rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
+      <p class="text-lg font-medium text-gray-700">Loading Dashboard...</p>
+      <p class="text-sm text-gray-500">Please wait while we prepare your experience</p>
+    </div>
+  </div>
+
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar w-64 space-y-6 py-6 px-4 fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 z-30 overflow-y-auto">
+      <a class="flex items-center space-x-3 px-2 py-3">
+        <img id="logo" src="" alt="Logo" class="h-9 w-9 rounded-lg object-cover shadow-md border border-gray-200" />
+        <span id="webtitle" class="text-xl font-semibold tracking-tight text-gray-800"></span>
+      </a>
+      
+      <nav class="space-y-1 transition-all duration-300" id="menu">
+        <!-- Menu will be injected here -->
+      </nav>
+      
+      <div class="absolute bottom-4 left-4 right-4 text-xs text-gray-500">
+        <!-- Optional footer content can go here -->
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Header -->
+      <header class="flex items-center justify-between bg-white py-3 px-6 shadow-sm z-20 border-b border-gray-200">
+        <div class="flex justify-center items-center space-x-4">
+          <button id="menu-btn" class="text-xl focus:outline-none md:hidden text-gray-600 hover:text-blue-500 transition-colors">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <h1 id="webtitle" class="text-xl text-center font-semibold text-gray-800"></h1>
+        <div class="flex items-center space-x-4">
+          <a id="profile-links" href="#" class="group">
+            <img id="profile-pic" src="" alt="Profile" class="h-10 w-10 rounded-full object-cover border-2 border-transparent transition-all duration-200" />
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 overflow-x-hidden overflow-y-auto mt-2 bg-gray-50">
+        <div class="container mx-auto px-4 py-6">
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+            <div class="card p-6 rounded-xl flex items-center">
+              <div class="icon-container mr-4">
+                <i class="fa-solid fa-globe text-2xl text-blue-500"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-medium mb-1 text-gray-800">Status Server</h2>
+                <p id="total-request" class="text-sm text-gray-600">
+                  <span class="status-badge status-active flex items-center">
+                    <span class="active-indicator rounded-full bg-green-500 mr-2"></span>
+                    Active
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <div class="card p-6 rounded-xl flex items-center">
+              <div class="icon-container mr-4">
+                <i class="fas fa-battery-three-quarters text-2xl text-blue-500"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-medium mb-1 text-gray-800">Battery Status</h2>
+                <p id="battery-status" class="text-sm text-gray-600">Fetching battery status...</p>
+              </div>
+            </div>
+
+            <div class="card p-6 rounded-xl flex items-center">
+              <div class="icon-container mr-4">
+                <i class="fa-solid fa-server text-2xl text-blue-500"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-medium mb-1 text-gray-800">IP Address</h2>
+                <p id="ip-address" class="text-sm text-gray-600">Fetching IP address...</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- API Information Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div class="card p-6 rounded-xl">
+              <h2 class="text-lg font-medium mb-4 text-gray-800">API Information</h2>
+              <div class="space-y-3">
+                <a id="contact-link" href="#" class="flex items-center space-x-3 text-blue-500 hover:text-blue-600 transition-colors">
+                  <i class="fas fa-envelope"></i>
+                  <span>Contact Developer</span>
+                </a>
+                <a id="whatsapp-link" href="#" class="flex items-center space-x-3 text-blue-500 hover:text-blue-600 transition-colors">
+                  <i class="fab fa-whatsapp"></i>
+                  <span>Join WhatsApp Channel</span>
+                </a>
+              </div>
+            </div>
+            
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white text-sm text-center py-3 text-gray-500 border-t border-gray-200">
+    <p id="footer-text"></p>
+  </footer>
+
+  <script>
+    // Loading screen transition
+    window.addEventListener("load", function () {
+      const loader = document.getElementById("loading-screen");
+      setTimeout(() => {
+        loader.classList.add("hidden");
+      }, 1000);
+    });
+    
+    // Mobile menu toggle
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menu-btn');
+    
+    menuBtn.addEventListener('click', (event) => {
+      sidebar.classList.toggle('-translate-x-full');
+      event.stopPropagation();
+    });
+    
+    document.addEventListener('click', (event) => {
+      if (!sidebar.contains(event.target) && !menuBtn.contains(event.target) && !sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.add('-translate-x-full');
+      }
+    });
+    
+    // Dropdown toggle function
+    function toggleDropdown(dropdownId, chevronId) {
+      const dropdown = document.getElementById(dropdownId);
+      const chevron = document.getElementById(chevronId);
+      
+      // Toggle current dropdown
+      dropdown.classList.toggle('collapsed');
+      dropdown.classList.toggle('expanded');
+      chevron.classList.toggle('rotated');
+      
+      // Close other dropdowns
+      document.querySelectorAll('.dropdown-content').forEach(el => {
+        if (el.id !== dropdownId && el.classList.contains('expanded')) {
+          el.classList.remove('expanded');
+          el.classList.add('collapsed');
+        }
+      });
+      
+      document.querySelectorAll('.chevron').forEach(el => {
+        if (el.id !== chevronId && el.classList.contains('rotated')) {
+          el.classList.remove('rotated');
+        }
+      });
+    }
+    
+    // Load settings and content
+    async function loadSettings() {
+      try {
+        const [settings, set] = await Promise.all([
+          fetch("/endpoints.json").then(res => res.json()),
+          fetch("/settings.json").then(res => res.json())
+        ]);
+        
+        // Set basic page info
+        document.querySelector("#pagetitle").textContent = set.pagetitle;
+        document.getElementById("footer-text").textContent = `© ${new Date().getFullYear()} ${set.creator}. All rights reserved.`;
+        document.querySelectorAll("#webtitle").forEach(el => el.textContent = set.apititle);
+        document.getElementById("logo").src = set.image;
+        document.getElementById("profile-pic").src = set.image;
+        document.getElementById("profile-links").href = set.contact;
+        document.getElementById("contact-link").href = set.contact;
+        document.getElementById("whatsapp-link").href = set.links;
+       
+        
+        // Build menu
+        const menu = document.getElementById("menu");
+        let menuHTML = `
+          <a class="menu-item flex items-center space-x-3 py-3 px-4 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600" href="${window.location.origin}/">
+            <i class="fas fa-tachometer-alt w-5 text-center"></i>
+            <span>Dashboard</span>
+          </a>`;
+        
+        settings.forEach((item, index) => {
+          menuHTML += `
+            <div class="space-y-1">
+              <button class="menu-item flex items-center justify-between w-full py-3 px-4 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600" 
+                      onclick="toggleDropdown('dropdown-${index}', 'chevron-${index}')">
+                <div class="flex items-center space-x-3">
+                  <i class='${item.icon} w-5 text-center'></i>
+                  <span>${item.category}</span>
+                </div>
+                <i id="chevron-${index}" class="chevron fas fa-chevron-down text-sm"></i>
+              </button>
+              <div id="dropdown-${index}" class="dropdown-content collapsed ml-8 pl-2 border-l-2 border-gray-200">
+                ${item.api.slice().sort((a, b) => a.name.localeCompare(b.name))
+                  .map(api => `
+                    <a class="menu-item flex items-center space-x-2 py-2 px-3 rounded-lg text-gray-600 hover:bg-blue-50 hover:text-blue-600 text-sm" 
+                       href="${window.location.origin}${api.path}">
+                      <i class="fa-regular fa-circle text-[8px] text-blue-400"></i>
+                      <span>${api.name}</span>
+                    </a>`).join('')}
+              </div>
+            </div>`;
+        });
+        
+        menu.innerHTML = menuHTML;
+        
+        // Get battery status
+        if ('getBattery' in navigator) {
+          navigator.getBattery().then(battery => {
+            function updateBattery() {
+              const batteryEl = document.getElementById('battery-status');
+              const level = Math.round(battery.level * 100);
+              
+              let icon, colorClass;
+              if (level > 80) {
+                icon = 'fa-battery-full';
+                colorClass = 'battery-high';
+              } else if (level > 50) {
+                icon = 'fa-battery-three-quarters';
+                colorClass = 'battery-medium';
+              } else if (level > 20) {
+                icon = 'fa-battery-half';
+                colorClass = 'battery-medium';
+              } else {
+                icon = 'fa-battery-quarter';
+                colorClass = 'battery-low';
+              }
+              
+              batteryEl.innerHTML = `
+                <span class="flex items-center">
+                  <i class="fas ${icon} ${colorClass} mr-2"></i>
+                  ${level}% ${battery.charging ? '(Charging)' : ''}
+                </span>`;
+            }
+            
+            updateBattery();
+            battery.addEventListener('levelchange', updateBattery);
+            battery.addEventListener('chargingchange', updateBattery);
+          });
+        } else {
+          document.getElementById('battery-status').textContent = 'Not available';
+        }
+        
+        // Get IP address
+        fetch('https://api.ipify.org?format=json')
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('ip-address').textContent = data.ip;
+          })
+          .catch(() => {
+            document.getElementById('ip-address').textContent = 'Unable to fetch IP';
+          });
+          
+      } catch (error) {
+        console.error('Error loading settings:', error);
+        // Fallback content if JSON fails to load
+        document.querySelector("#pagetitle").textContent = "API Dashboard";
+        document.querySelectorAll("#webtitle").forEach(el => el.textContent = "API Dashboard");
+        document.getElementById("footer-text").textContent = `© ${new Date().getFullYear()} API Dashboard`;
+      }
+    }
+    
+    // Initialize the page
+    loadSettings();
+    
+    // Update last updated time every minute
+    setInterval(() => {
+      document.getElementById("last-updated").textContent = new Date().toLocaleTimeString();
+    }, 60000);
+  </script>
+</body>
+</html>
