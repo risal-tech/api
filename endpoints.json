@@ -1,0 +1,66 @@
+[
+  {
+    "category": "User Management",
+    "icon": "fas fa-users",
+    "api": [
+      {
+        "name": "Get All Users",
+        "path": "/users",
+        "method": "GET",
+        "description": "Retrieve a list of all users in the system.",
+        "parameters": [],
+        "response": {
+          "format": "JSON",
+          "example": {
+            "status": "success",
+            "data": [
+              { "id": 1, "name": "John Doe", "email": "john@example.com" },
+              { "id": 2, "name": "Jane Doe", "email": "jane@example.com" }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Create User",
+        "path": "/users/create",
+        "method": "POST",
+        "description": "Create a new user in the system.",
+        "parameters": [
+          { "name": "name", "type": "string", "required": true },
+          { "name": "email", "type": "string", "required": true }
+        ],
+        "response": {
+          "format": "JSON",
+          "example": {
+            "status": "success",
+            "message": "User created successfully",
+            "data": { "id": 3, "name": "Alice", "email": "alice@example.com" }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "category": "Product Management",
+    "icon": "fas fa-boxes",
+    "api": [
+      {
+        "name": "Get All Products",
+        "path": "/products",
+        "method": "GET",
+        "description": "Retrieve a list of all products available.",
+        "parameters": [],
+        "response": {
+          "format": "JSON",
+          "example": {
+            "status": "success",
+            "data": [
+              { "id": 1, "name": "Laptop", "price": 999.99 },
+              { "id": 2, "name": "Smartphone", "price": 699.99 }
+            ]
+          }
+        }
+      }
+    ]
+  }
+]
