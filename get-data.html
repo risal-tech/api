@@ -731,7 +731,7 @@
       const apiList = document.getElementById("api-list");
       let currentEndpoint = "";
 
-      const settings = await fetch("/settings.json").then(res => res.json());
+      const settings = await fetch("/settings2.json").then(res => res.json());
       const apis = settings.endpoints;
 
       const setContent = (id, property, value) => {
