@@ -58,8 +58,9 @@ app.use((req, res, next) => {
 });
 
 // Auto handle URL tanpa .html untuk file di folder api-page
-app.get('/:page', (req, res, next) => {
-  const filePath = path.join(__dirname, 'api-page', `${req.params.page}.html`);
+app.get('/:folder/:page', (req, res, next) => {
+  const { folder, page } = req.params;
+  const filePath = path.join(__dirname, 'api-page', folder, `${page}.html`);
   if (fs.existsSync(filePath)) {
     return res.sendFile(filePath);
   }
