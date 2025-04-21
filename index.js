@@ -4,7 +4,6 @@ const fs = require('fs');
 const cors = require('cors');
 const path = require('path');
 
-// Import file function.js (hanya jika ada efek samping atau global)
 require("./function.js");
 
 const app = express();
@@ -13,17 +12,11 @@ const PORT = process.env.PORT || 8000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-// Static file serving
-app.use('/', express.static(path.join(__dirname, '/')));
-app.use('/', express.static(path.join(__dirname, 'api-page')));
-app.use('/src', express.static(path.join(__dirname, 'src')));
-
-// Load settings.json
+// === Load settings.json ===
 const settingsPath = path.join(__dirname, './settings.json');
 let settings = {};
 try {
@@ -36,7 +29,7 @@ try {
 global.apikey = settings.apiSettings.apikey || null;
 global.totalreq = 0;
 
-// Middleware untuk log dan format JSON response
+// === Middleware log + format JSON ===
 app.use((req, res, next) => {
   console.log(chalk.bgHex('#FFFF99').hex('#333').bold(` Request Route: ${req.path} `));
   global.totalreq += 1;
@@ -57,25 +50,42 @@ app.use((req, res, next) => {
   next();
 });
 
-// Auto handle URL tanpa .html untuk file di folder api-page
+// === Serve static files ===
+app.use('/', express.static(path.join(__dirname, '/')));
+app.use('/', express.static(path.join(__dirname, 'api-page')));
+app.use('/src', express.static(path.join(__dirname, 'src')));
+
+// === Auto serve all HTML folders (dashboard, admin, etc) ===
+const foldersToServe = fs.readdirSync(__dirname).filter(f => {
+  const fullPath = path.join(__dirname, f);
+  return fs.statSync(fullPath).isDirectory()
+    && !['node_modules', 'api-page', 'src'].includes(f)
+    && fs.existsSync(path.join(fullPath, 'index.html'));
+});
+
+foldersToServe.forEach(folder => {
+  app.use(`/${folder}`, express.static(path.join(__dirname, folder), { index: 'index.html' }));
+  console.log(chalk.green(`Static HTML folder mounted: /${folder}`));
+});
+
+// === Auto handle /folder/page → api-page/folder/page.html ===
 app.get('/:folder/:page', (req, res, next) => {
   const { folder, page } = req.params;
   const filePath = path.join(__dirname, 'api-page', folder, `${page}.html`);
   if (fs.existsSync(filePath)) {
     return res.sendFile(filePath);
   }
-  next(); // kalau file nggak ada, lanjut ke route lain
+  next();
 });
 
-// Default home page
+// === Home ===
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'api-page', 'index.html'));
 });
 
-// Load dynamic routes
+// === Load dynamic API routes ===
 let totalRoutes = 0;
 const apiFolder = path.join(__dirname, './src');
-
 fs.readdirSync(apiFolder).forEach((subfolder) => {
   const subfolderPath = path.join(apiFolder, subfolder);
   if (fs.statSync(subfolderPath).isDirectory()) {
@@ -93,18 +103,16 @@ fs.readdirSync(apiFolder).forEach((subfolder) => {
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(' Load Complete! ✓ '));
 console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Total Routes Loaded: ${totalRoutes} `));
 
-// 404 handler
+// === 404 / 500 handler ===
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'api-page', '404.html'));
 });
 
-// 500 error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).sendFile(path.join(__dirname, 'api-page', '500.html'));
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(chalk.bgHex('#90EE90').hex('#333').bold(` Server is running on port ${PORT} `));
 });
