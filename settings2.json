@@ -1,38 +1,48 @@
 {
-  "pagetitle": "API Dashboard",
-  "apititle": "Comprehensive API Suite",
-  "creator": "Your Company Name",
-  "github": "https://github.com/yourcompany",
-  "whatsapp": "https://wa.me/yourcontact",
-  "youtube": "https://youtube.com/yourchannel",
-  "endpoints": {
-    "user": [
-      {
-        "name": "Get User Information",
-        "desc": "Retrieve detailed information about a user.",
-        "path": "/api/user?id={id}",
-        "status": "Active"
-      },
-      {
-        "name": "Update User",
-        "desc": "Update user details such as name, email, or password.",
-        "path": "/api/user/update?id={id}&name={name}",
-        "status": "Beta"
-      }
-    ],
-    "product": [
-      {
-        "name": "Get Product List",
-        "desc": "Fetch the list of available products.",
-        "path": "/api/products",
-        "status": "Active"
-      },
-      {
-        "name": "Get Product Details",
-        "desc": "Retrieve details about a specific product.",
-        "path": "/api/products?id={id}",
-        "status": "Maintenance"
-      }
-    ]
-  }
+  "pagetitle": "API Dashboard", 
+  "creator": "Ditss Dev",
+  "apititle": "My API Dashboard", 
+  "image": "https://example.com/logo.png", 
+  "contact": "mailto:developer@example.com", 
+  "links": "https://chat.whatsapp.com/example",
+  "menu": [
+    {
+      "category": "Dashboard",
+      "icon": "fas fa-tachometer-alt",
+      "api": [
+        {
+          "name": "Home",
+          "path": "/"
+        }
+      ]
+    },
+    {
+      "category": "User Management",
+      "icon": "fas fa-users",
+      "api": [
+        {
+          "name": "User List",
+          "path": "/users"
+        },
+        {
+          "name": "Add User",
+          "path": "/users/add"
+        }
+      ]
+    },
+    {
+      "category": "Reports",
+      "icon": "fas fa-chart-bar",
+      "api": [
+        {
+          "name": "Sales Report",
+          "path": "/reports/sales"
+        },
+        {
+          "name": "Activity Report",
+          "path": "/reports/activity"
+        }
+      ]
+    }
+  ]
 }
