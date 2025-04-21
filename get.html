@@ -333,7 +333,7 @@
       try {
         const [settings, set] = await Promise.all([
           fetch("/endpoints.json").then(res => res.json()),
-          fetch("/settings.json").then(res => res.json())
+          fetch("/settings2.json").then(res => res.json())
         ]);
         
         // Set basic page info
