@@ -21,11 +21,11 @@
       "icon": "fas fa-users",
       "api": [
         {
-          "name": "User List",
-          "path": "/users"
+          "name": "contact",
+          "path": "/contact"
         },
         {
-          "name": "Add User",
+          "name": "medsos",
           "path": "/users/add"
         }
       ]
