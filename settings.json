@@ -273,7 +273,7 @@
         },{
           "name": "Brat video",
           "desc": "Bratvid text generator",
-          "path": "/imagecreator/bratvid?apikey=&text="
+          "path": "/imagecreator/bratvideo?apikey=&text="
         }
       ]
     },
