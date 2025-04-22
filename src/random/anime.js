@@ -1,9 +1,35 @@
 const axios = require('axios');
 
+// Fungsi untuk mengambil gambar acak berdasarkan nama anime
+async function getRandomAnimeImage(query) {
+  try {
+    // Mencari anime berdasarkan nama menggunakan Jikan API
+    const response = await axios.get(`https://api.jikan.moe/v4/anime`, {
+      params: {
+        q: query,        // Mencari berdasarkan nama anime
+        limit: 10         // Mengambil beberapa hasil (misalnya 10 anime)
+      }
+    });
+
+    // Memastikan data ditemukan
+    const animeList = response.data.data;
+    if (!animeList || animeList.length === 0) {
+      throw new Error('Anime tidak ditemukan');
+    }
+
+    // Memilih anime secara acak dari hasil pencarian
+    const randomAnime = animeList[Math.floor(Math.random() * animeList.length)];
+    
+    // Mengambil URL gambar dari anime yang dipilih secara acak
+    return randomAnime.images.jpg.large_image_url;
+  } catch (error) {
+    throw new Error('Error fetching random anime image: ' + error.message);
+  }
+}
+
 // Fungsi untuk mengambil gambar sebagai buffer
 async function getImageBuffer(url) {
   try {
-    // Mengambil data gambar menggunakan axios
     const response = await axios.get(url, {
       responseType: 'arraybuffer'  // Mendapatkan respons dalam bentuk buffer
     });
@@ -13,32 +39,9 @@ async function getImageBuffer(url) {
   }
 }
 
-// API untuk anime, misalnya "Naruto"
+// API untuk gambar anime berdasarkan nama secara acak
 module.exports = function(app) {
-  async function getAnimeImage(query) {
-    try {
-      const data = await axios.get(`https://api.jikan.moe/v4/anime`, {
-        params: {
-          q: query,        // Pencarian berdasarkan nama anime
-          limit: 1          // Hanya mengambil 1 anime pertama yang ditemukan
-        }
-      });
-
-      const anime = data.data.data[0];
-      if (!anime) {
-        throw new Error('Anime tidak ditemukan');
-      }
-
-      // Mendapatkan URL gambar anime
-      const imageUrl = anime.images.jpg.large_image_url;
-      return imageUrl;
-    } catch (error) {
-      throw new Error('Error fetching anime info: ' + error.message);
-    }
-  }
-
-  // Endpoint untuk mendapatkan gambar anime berdasarkan query
-  app.get('/anime/image', async (req, res) => {
+  app.get('/anime/randomimage', async (req, res) => {
     try {
       const { apikey, query } = req.query;
       if (!global.apikey || !global.apikey.includes(apikey)) {
@@ -49,11 +52,11 @@ module.exports = function(app) {
         return res.json({ status: false, error: 'Query anime tidak ditemukan' });
       }
 
-      // Mendapatkan URL gambar anime
-      const imageUrl = await getAnimeImage(query);
-      
+      // Mendapatkan URL gambar anime acak berdasarkan query
+      const animeImageUrl = await getRandomAnimeImage(query);
+
       // Mengambil gambar menggunakan buffer
-      const imageBuffer = await getImageBuffer(imageUrl);
+      const imageBuffer = await getImageBuffer(animeImageUrl);
 
       // Mengirim gambar dalam bentuk buffer
       res.writeHead(200, {
