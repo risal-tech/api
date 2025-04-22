@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Topup E-Wallet</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      transition: background-color 0.5s ease, color 0.5s ease; /* Menambahkan transisi warna teks */
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: box-shadow 0.3s ease; /* Menambahkan transisi pada box-shadow */
+    }
+
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      transition: color 0.5s ease; /* Menambahkan transisi warna judul */
+    }
+
+    .neon-box {
+      margin: 20px 0;
+    }
+
+    label {
+      font-size: 16px;
+      color: #1e3a8a;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.5s ease; /* Menambahkan transisi warna teks label */
+    }
+
+    select,
+    input {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin: 10px 0;
+      border-radius: 8px;
+      outline: none;
+      color: #333;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+
+    .neon-box button {
+      background-color: #3b82f6;
+      color: white;
+      font-size: 18px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .neon-box button:hover {
+      background-color: #2563eb;
+    }
+
+    .logo-ewallet {
+      width: 100px;
+      height: 100px;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .footer a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Topup E-Wallet</h2>
+    <p>Pilih e-Wallet dan nominal topup Anda</p>
+
+    <!-- Dropdown untuk memilih e-Wallet -->
+    <div class="neon-box">
+      <label for="jenis-ewallet">Pilih E-Wallet</label>
+      <select id="jenis-ewallet">
+        <option value="">--Pilih E-Wallet--</option>
+        <option value="dana">DANA</option>
+        <option value="ovo">OVO</option>
+        <option value="gopay">GoPay</option>
+        <option value="shopeepay">ShopeePay</option>
+        <option value="linkaja">LinkAja</option>
+        <option value="qris">coming soon</option>
+      </select>
+
+      <!-- Menampilkan logo E-Wallet yang dipilih -->
+      <div class="text-center mb-4">
+        <img id="logo-ewallet" class="logo-ewallet" src="" alt="Logo E-Wallet" />
+      </div>
+    </div>
+
+    <!-- Input untuk memilih nominal topup -->
+    <div class="neon-box">
+      <label for="nominal">Masukkan Nominal (Rp)</label>
+      <input type="number" id="nominal" placeholder="Contoh: 50000" min="1000" />
+    </div>
+
+    <!-- Tombol untuk mengonfirmasi -->
+    <div class="neon-box">
+      <button id="topupButton">Topup Sekarang</button>
+    </div>
+  </div>
+
+  <!-- Footer untuk informasi tambahan -->
+  <div class="footer text-center">
+    <p>Powered by <a href="#">Ditss Store</a></p>
+  </div>
+
+  <script>
+    const logoEwallet = document.getElementById("logo-ewallet");
+    const ewalletSelect = document.getElementById("jenis-ewallet");
+    const body = document.body;
+    const h2 = document.querySelector("h2");
+    const labels = document.querySelectorAll("label");
+    const button = document.querySelector("button");
+
+    const logos = {
+      dana: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_dana_blue.svg/512px-Logo_dana_blue.svg.png",
+      ovo: "https://upload.wikimedia.org/wikipedia/commons/1/16/Logo_OVO_purple.svg",
+      gopay: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Gopay_logo.svg/512px-Gopay_logo.svg.png",
+      shopeepay: "https://seeklogo.com/images/S/shopeepay-logo-9F842FD1A2-seeklogo.com.png",
+      linkaja: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/LinkAja_logo.svg/512px-LinkAja_logo.svg.png",
+      qris: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/QRIS_logo.svg/2560px-QRIS_logo.svg.png",
+    };
+
+    const colors = {
+      dana: "#2a9df4",  // Biru DANA
+      ovo: "#7a2c9c",   // Ungu OVO
+      gopay: "#00b140", // Hijau GoPay
+      shopeepay: "#fb2e42", // Merah ShopeePay
+      linkaja: "#ff8200", // Oranye LinkAja
+      qris: "#00a6a6",  // Biru kehijauan QRIS
+    };
+
+    ewalletSelect.addEventListener("change", function () {
+      const ewallet = this.value.toLowerCase();
+      if (logos[ewallet]) {
+        logoEwallet.src = logos[ewallet];
+        logoEwallet.style.display = "block"; // Tampilkan logo
+        body.style.backgroundColor = colors[ewallet] || "#f4f7fa"; // Ganti warna latar belakang
+        body.style.color = "#fff"; // Ganti teks menjadi putih saat ada warna gelap
+        h2.style.color = colors[ewallet]; // Ganti warna teks judul
+        labels.forEach(label => label.style.color = colors[ewallet]); // Ganti warna label
+        button.style.backgroundColor = colors[ewallet]; // Ganti tombol dengan warna yang sesuai
+      } else {
+        logoEwallet.style.display = "none"; // Sembunyikan logo jika tidak ada
+        body.style.backgroundColor = "#f4f7fa"; // Kembalikan warna latar belakang ke default
+        body.style.color = "#333"; // Kembalikan warna teks
+        h2.style.color = "#1e3a8a"; // Kembalikan warna teks judul ke default
+        labels.forEach(label => label.style.color = "#1e3a8a"); // Kembalikan warna label ke default
+        button.style.backgroundColor = "#3b82f6"; // Kembalikan warna tombol ke default
+      }
+    });
+
+    document.getElementById("topupButton").addEventListener("click", function () {
+      const ewallet = ewalletSelect.value;
+      const nominal = document.getElementById("nominal").value;
+
+      if (!ewallet || !nominal || isNaN(nominal) || nominal <= 0) {
+        alert("Harap pilih e-Wallet dan masukkan nominal yang valid.");
+        return;
+      }
+
+      alert(`Topup ke ${ewallet.charAt(0).toUpperCase() + ewallet.slice(1)} sebesar Rp ${nominal}`);
+      // Kirim pesan ke WhatsApp atau proses lainnya
+    });
+  </script>
+
+</body>
+</html>
