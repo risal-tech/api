@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List VPS - Ditss Store</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0a0a0a;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    h1 {
+      text-align: center;
+      color: #00bfff;
+      margin: 40px 0 10px;
+      opacity: 0;
+      animation: fadeInDown 1s forwards;
+    }
+    #searchInput {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      display: block;
+      border-radius: 8px;
+      border: 2px solid #00bfff;
+      background: #0a0a0a;
+      color: white;
+      text-align: center;
+    }
+    @keyframes fadeInDown {
+      to {opacity: 1; transform: translateY(0);}
+      from {opacity: 0; transform: translateY(-20px);}
+    }
+    .product {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #00bfff;
+      box-shadow: 0 0 15px #00bfff;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px;
+      transition: 0.3s ease;
+      opacity: 0;
+      animation: fadeInUp 1s forwards;
+    }
+    .product:nth-child(even) {animation-delay: 0.2s;}
+    .product:nth-child(odd) {animation-delay: 0.4s;}
+    @keyframes fadeInUp {
+      to {opacity: 1; transform: translateY(0);}
+      from {opacity: 0; transform: translateY(30px);}
+    }
+    .product:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px #00bfff, 0 0 15px #00bfff inset;
+    }
+    .product h3 {
+      font-size: 18px;
+      color: #00ffff;
+    }
+    .product p {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+    .price {
+      font-weight: bold;
+      color: #00ffff;
+    }
+    .buy-btn {
+      display: inline-block;
+      background: #00bfff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: 0.3s ease;
+    }
+    .buy-btn:hover {
+      background: #0099cc;
+      box-shadow: 0 0 10px #00bfff;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    footer {
+      text-align: center;
+      color: #888;
+      margin: 40px 10px 60px;
+      font-size: 13px;
+    }
+    .weather-effect div {
+      position: fixed;
+      top: -10px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .snowflake, .raindrop, .lightning {
+      position: absolute;
+      border-radius: 50%;
+      animation: fall linear infinite;
+    }
+    .snowflake {
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      opacity: 0.7;
+      animation-duration: 10s;
+    }
+    .raindrop {
+      width: 2px;
+      height: 10px;
+      background: #66ccff;
+      opacity: 0.4;
+      animation-duration: 5s;
+    }
+    .lightning {
+      width: 2px;
+      height: 100vh;
+      background: #ffffff;
+      opacity: 0.2;
+      animation: flash 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes fall {
+      to {transform: translateY(100vh);}
+    }
+    @keyframes flash {
+      0% {opacity: 0.2;}
+      100% {opacity: 0.7;}
+    }
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 0 10px #00bfff;
+    }
+    .top-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #00bfff;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      z-index: 10;
+      display: none;
+      box-shadow: 0 0 10px #00bfff;
+    }
+    #loader {
+      position: fixed;
+      background: #0a0a0a;
+      color: #00bfff;
+      font-size: 24px;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* FAQ Section Styles */
+    #faq {
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 15px;
+      margin: 20px;
+    }
+    #faq h2 {
+      color: #00bfff;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .faq-item {
+      margin-bottom: 15px;
+    }
+    .faq-item h3 {
+      font-size: 18px;
+      color: #00ffff;
+    }
+    .faq-item p {
+      font-size: 14px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .product, #faq {
+        margin: 10px;
+        padding: 15px;
+      }
+      .product h3, .faq-item h3 {
+        font-size: 16px;
+      }
+      .product p, .faq-item p {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loader">Memuat halaman...</div>
+
+<button class="music-btn" onclick="toggleMusic()"><i class="fas fa-play"></i></button>
+<button class="top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+<h1>List VPS Ditss Store</h1>
+<input type="text" id="searchInput" placeholder="Cari VPS...">
+
+<div class="grid-container">
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 2GB RAM - 1 Core</h3>
+    <p><i class="fas fa-hdd"></i> 25GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 2.5 GHz</p>
+    <p>Location: Singapore</p>
+    <p class="price">Rp 20.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%202GB%201Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 4GB RAM - 2 Core</h3>
+    <p><i class="fas fa-hdd"></i> 50GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 2.7 GHz</p>
+    <p>Location: Japan</p>
+    <p class="price">Rp 35.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%204GB" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 8GB RAM - 4 Core</h3>
+    <p><i class="fas fa-hdd"></i> 80GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 2.9 GHz</p>
+    <p>Location: USA</p>
+    <p class="price">Rp 65.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%208GB%204Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 10GB RAM - 5 Core</h3>
+    <p><i class="fas fa-hdd"></i> 100GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 3.0 GHz</p>
+    <p>Location: Germany</p>
+    <p class="price">Rp 80.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2010GB%205Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 14GB RAM - 6 Core</h3>
+    <p><i class="fas fa-hdd"></i> 140GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 3.2 GHz</p>
+    <p>Location: UK</p>
+    <p class="price">Rp 100.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2014GB%206Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 16GB RAM - 8 Core</h3>
+    <p><i class="fas fa-hdd"></i> 160GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 3.4 GHz</p>
+    <p>Location: Canada</p>
+    <p class="price">Rp 120.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2016GB%208Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 20GB RAM - 10 Core</h3>
+    <p><i class="fas fa-hdd"></i> 200GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 3.6 GHz</p>
+    <p>Location: Australia</p>
+    <p class="price">Rp 150.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2020GB%2010Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 36GB RAM - 18 Core</h3>
+    <p><i class="fas fa-hdd"></i> 360GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 3.8 GHz</p>
+    <p>Location: France</p>
+    <p class="price">Rp 280.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2036GB%2018Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 40GB RAM - 20 Core</h3>
+    <p><i class="fas fa-hdd"></i> 400GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 4.0 GHz</p>
+    <p>Location: Netherlands</p>
+    <p class="price">Rp 310.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2040GB%2020Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 56GB RAM - 28 Core</h3>
+    <p><i class="fas fa-hdd"></i> 560GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 4.2 GHz</p>
+    <p>Location: South Korea</p>
+    <p class="price">Rp 390.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2056GB%2028Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 64GB RAM - 32 Core</h3>
+    <p><i class="fas fa-hdd"></i> 640GB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 4.4 GHz</p>
+    <p>Location: Singapore</p>
+    <p class="price">Rp 420.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%2064GB%2032Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 128GB RAM - 64 Core</h3>
+    <p><i class="fas fa-hdd"></i> 1TB+ SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 4.6 GHz</p>
+    <p>Location: Japan</p>
+    <p class="price">Rp 800.000 / bulan</p>
+<a href="..." class="buy-btn"><i class="fas fa-cart-shopping"></i> Beli Sekarang</a>
+  </div>
+
+  <div class="product">
+    <h3><i class="fas fa-server"></i> VPS 256GB RAM - 96 Core</h3>
+    <p><i class="fas fa-hdd"></i> 2TB SSD • <i class="fas fa-infinity"></i> Unlimited Bandwidth</p>
+    <p>CPU: 4.8 GHz</p>
+    <p>Location: USA</p>
+    <p class="price">Rp 1.200.000 / bulan</p>
+    <a href="https://wa.me/6281513607731?text=Beli%20VPS%20256GB%2096Core" class="buy-btn">Beli Sekarang</a>
+  </div>
+
+  <div class="product" style="text-align:center">
+    <h3><i class="fas fa-layer-group"></i> Mau hosting Pterodactyl?</h3>
+    <p>Panel siap pakai untuk semua kebutuhan</p>
+    <a href="pterodactyl.html" class="buy-btn">Lihat Panel</a>
+  </div>
+</div>
+
+<!-- FAQ Section -->
+<section id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <h3>How do I purchase a VPS?</h3>
+    <p>You can purchase a VPS by clicking the "Beli Sekarang" button next to the VPS package you want and following the instructions.</p>
+  </div>
+  <div class="faq-item">
+    <h3>What payment methods do you accept?</h3>
+    <p>We accept various payment methods including credit card, bank transfer, and PayPal.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Can I upgrade my VPS later?</h3>
+    <p>Yes, you can upgrade your VPS at any time by contacting our support.</p>
+  </div>
+  <!-- Add more FAQ items as needed -->
+</section>
+
+<footer>Powered by Ditss Store</footer>
+
+<div class="weather-effect" id="weather"></div>
+
+<audio id="bgMusic" src="https://files.catbox.moe/4ssmns.mp3" loop></audio>
+
+<script>
+  // Loading
+  window.addEventListener("load", () => {
+    document.getElementById("loader").style.display = "none";
+  });
+
+  // Scroll button
+  window.addEventListener("scroll", () => {
+    document.querySelector(".top-btn").style.display = window.scrollY > 300 ? "block" : "none";
+  });
+
+  // Music
+  const music = document.getElementById("bgMusic");
+  const musicBtn = document.querySelector(".music-btn i");
+  let playing = false;
+
+  function toggleMusic() {
+    playing = !playing;
+    if (playing) {
+      music.play();
+      musicBtn.classList.replace("fa-play", "fa-pause");
+    } else {
+      music.pause();
+      musicBtn.classList.replace("fa-pause", "fa-play");
+    }
+  }
+
+  // Cuaca
+  const weather = document.getElementById("weather");
+  const type = ["snowflake", "raindrop", "lightning"];
+  const weatherType = type[Math.floor(Math.random() * type.length)];
+
+  function makeParticles(cls, total) {
+    for (let i = 0; i < total; i++) {
+      const el = document.createElement("div");
+      el.className = cls;
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDelay = Math.random() * 10 + "s";
+      el.style.opacity = Math.random();
+      weather.appendChild(el);
+    }
+  }
+
+  makeParticles(weatherType, weatherType === "raindrop" ? 30 : 19);
+
+  // Pencarian real-time
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", () => {
+    const filter = searchInput.value.toLowerCase();
+    const products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+      const text = product.innerText.toLowerCase();
+      product.style.display = text.includes(filter) ? "block" : "none";
+    });
+  });
+</script>
+
+</body>
+  </html>
