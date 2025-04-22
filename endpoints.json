@@ -1,7 +1,52 @@
 [
   {
-    "category": "produk",
-    "icon": "fas fa-users",
+    "category": "Home",
+    "icon": "fas fa-home",
+    "description": "Landing page or main dashboard for the application.",
+    "html_path": "home/home.html"
+  },
+  {
+    "category": "Contact",
+    "icon": "fas fa-address-book",
+    "description": "Page containing contact information like email, phone, and address.",
+    "html_path": "contact/contact.html"
+  },
+  {
+    "category": "Social Media",
+    "icon": "fas fa-hashtag",
+    "description": "Social media integration or links to platforms like Facebook, Twitter, and Instagram.",
+    "html_path": "sosmed/sosmed.html"
+  },
+  {
+    "category": "Produk",
+    "icon": "fas fa-box-open",
+    "description": "Details about products or services offered.",
+    "html_path": "produk/produk.html",
+    "api": [
+      {
+        "name": "Get All Products",
+        "path": "/products",
+        "method": "GET",
+        "description": "Retrieve a list of all products available.",
+        "parameters": [],
+        "response": {
+          "format": "JSON",
+          "example": {
+            "status": "success",
+            "data": [
+              { "id": 1, "name": "Laptop", "price": 999.99 },
+              { "id": 2, "name": "Smartphone", "price": 699.99 }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "category": "API",
+    "icon": "fas fa-code",
+    "description": "API endpoints for developers.",
+    "html_path": "api/api.html",
     "api": [
       {
         "name": "Get All Users",
@@ -41,26 +86,15 @@
     ]
   },
   {
-    "category": "Product Management",
-    "icon": "fas fa-boxes",
-    "api": [
-      {
-        "name": "Get All Products",
-        "path": "/products",
-        "method": "GET",
-        "description": "Retrieve a list of all products available.",
-        "parameters": [],
-        "response": {
-          "format": "JSON",
-          "example": {
-            "status": "success",
-            "data": [
-              { "id": 1, "name": "Laptop", "price": 999.99 },
-              { "id": 2, "name": "Smartphone", "price": 699.99 }
-            ]
-          }
-        }
-      }
-    ]
+    "category": "Game",
+    "icon": "fas fa-gamepad",
+    "description": "Interactive games or gamification features.",
+    "html_path": "game/game.html"
+  },
+  {
+    "category": "Tools",
+    "icon": "fas fa-tools",
+    "description": "Utility tools or features for the application.",
+    "html_path": "tools/tools.html"
   }
 ]
