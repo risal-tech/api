@@ -1,46 +1,50 @@
 {
-  "pagetitle": "API Dashboard", 
+  "pagetitle": "API Dashboard",
   "creator": "Ditss Ganteng",
-  "apititle": "My API Dashboard", 
-  "image": "https://img12.pixhost.to/images/1330/582340474_ditss.jpg", 
-  "contact": "mailto:developer@example.com", 
+  "apititle": "My API Dashboard",
+  "image": "https://img12.pixhost.to/images/1330/582340474_ditss.jpg",
+  "contact": "mailto:developer@example.com",
   "links": "https://chat.whatsapp.com/example",
   "menu": [
     {
-      "category": "Dashboard",
-      "icon": "fas fa-tachometer-alt",
+      "category": "Main Navigation",
+      "icon": "fas fa-home",
       "api": [
         {
           "name": "Home",
           "path": "/"
-        }
-      ]
-    },
-    {
-      "category": "User Management",
-      "icon": "fas fa-users",
-      "api": [
+        },
         {
-          "name": "contact",
+          "name": "Contact",
           "path": "/contact"
         },
         {
-          "name": "medsos",
-          "path": "/users/add"
+          "name": "Sosmed",
+          "path": "/sosmed"
         }
       ]
     },
     {
-      "category": "Reports",
-      "icon": "fas fa-chart-bar",
+      "category": "Products",
+      "icon": "fas fa-box",
       "api": [
         {
-          "name": "Sales Report",
-          "path": "/reports/sales"
+          "name": "Produk",
+          "path": "/produk"
+        }
+      ]
+    },
+    {
+      "category": "Developer Tools",
+      "icon": "fas fa-tools",
+      "api": [
+        {
+          "name": "Tools",
+          "path": "/tools"
         },
         {
-          "name": "Activity Report",
-          "path": "/reports/activity"
+          "name": "API",
+          "path": "/api"
         }
       ]
     }
