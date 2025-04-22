@@ -270,6 +270,10 @@
           "name": "Brat",
           "desc": "Brat text generator",
           "path": "/imagecreator/brat?apikey=&text="
+        },{
+          "name": "Brat video",
+          "desc": "Bratvid text generator",
+          "path": "/imagecreator/bratvid?apikey=&text="
         }
       ]
     },
