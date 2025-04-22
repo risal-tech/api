@@ -1,7 +1,7 @@
 [
   {
     "category": "produk",
-    "icon": "fas fa-users",
+    "icon": "fas fa-store",
     "api": [
       {
         "name": "Get All Users",
