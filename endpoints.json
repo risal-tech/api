@@ -4,8 +4,8 @@
     "icon": "fas fa-store",
     "api": [
       {
-        "name": "Get All Users",
-        "path": "/users",
+        "name": "vps hosting",
+        "path": "/vps.html",
         "method": "GET",
         "description": "Retrieve a list of all users in the system.",
         "parameters": [],
@@ -21,8 +21,8 @@
         }
       },
       {
-        "name": "Create User",
-        "path": "/users/create",
+        "name": "panel pterodactyl",
+        "path": "/panel.html",
         "method": "POST",
         "description": "Create a new user in the system.",
         "parameters": [
