@@ -1,71 +1,67 @@
+const express = require('express');
 const axios = require('axios');
 
-// Fungsi untuk mengambil gambar acak berdasarkan nama anime
-async function getRandomAnimeImage(query) {
-  try {
-    // Mencari anime berdasarkan nama menggunakan Jikan API
-    const response = await axios.get(`https://api.jikan.moe/v4/anime`, {
-      params: {
-        q: query,        // Mencari berdasarkan nama anime
-        limit: 10         // Mengambil beberapa hasil (misalnya 10 anime)
-      }
-    });
+const app = express();
+const port = 3000;
 
-    // Memastikan data ditemukan
-    const animeList = response.data.data;
-    if (!animeList || animeList.length === 0) {
-      throw new Error('Anime tidak ditemukan');
-    }
-
-    // Memilih anime secara acak dari hasil pencarian
-    const randomAnime = animeList[Math.floor(Math.random() * animeList.length)];
-    
-    // Mengambil URL gambar dari anime yang dipilih secara acak
-    return randomAnime.images.jpg.large_image_url;
-  } catch (error) {
-    throw new Error('Error fetching random anime image: ' + error.message);
-  }
-}
-
-// Fungsi untuk mengambil gambar sebagai buffer
-async function getImageBuffer(url) {
-  try {
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer'  // Mendapatkan respons dalam bentuk buffer
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error('Error fetching image: ' + error.message);
-  }
-}
-
-// API untuk gambar anime berdasarkan nama secara acak
-module.exports = function(app) {
-  app.get('/anime/randomimage', async (req, res) => {
+// Fungsi untuk mengambil data dari GitHub
+async function getAnimeData() {
     try {
-      const { apikey, query } = req.query;
-      if (!global.apikey || !global.apikey.includes(apikey)) {
-        return res.json({ status: false, error: 'API Key invalid' });
-      }
-
-      if (!query) {
-        return res.json({ status: false, error: 'Query anime tidak ditemukan' });
-      }
-
-      // Mendapatkan URL gambar anime acak berdasarkan query
-      const animeImageUrl = await getRandomAnimeImage(query);
-
-      // Mengambil gambar menggunakan buffer
-      const imageBuffer = await getImageBuffer(animeImageUrl);
-
-      // Mengirim gambar dalam bentuk buffer
-      res.writeHead(200, {
-        'Content-Type': 'image/jpeg',  // Menentukan jenis gambar (JPEG, PNG, dll)
-        'Content-Length': imageBuffer.length,
-      });
-      res.end(imageBuffer);
+        const response = await axios.get('https://raw.githubusercontent.com/ditss-dev/database/main/anime/asuma.tokii.json');
+        return response.data; // Mengembalikan data JSON dari GitHub
     } catch (error) {
-      res.status(500).send(`Error: ${error.message}`);
+        throw new Error('Error fetching anime data');
     }
-  });
-};
+}
+
+// Fungsi untuk mengambil gambar acak dari data anime
+async function getRandomAnimeImage() {
+    try {
+        const animeData = await getAnimeData();
+        const randomIndex = Math.floor(Math.random() * animeData.length); // Ambil index acak
+        const selectedAnime = animeData[randomIndex]; // Ambil data anime berdasarkan index acak
+        const imageUrl = selectedAnime.image; // Ambil URL gambar anime (sesuaikan dengan struktur JSON kamu)
+        return imageUrl;
+    } catch (error) {
+        throw new Error('Error fetching random anime image');
+    }
+}
+
+// Fungsi untuk mengambil buffer gambar
+async function getBuffer(url) {
+    try {
+        const response = await axios.get(url, { responseType: 'arraybuffer' });
+        return Buffer.from(response.data);
+    } catch (error) {
+        throw new Error('Error fetching image buffer');
+    }
+}
+
+// Endpoint API untuk mengambil gambar anime acak
+app.get('/random/animee', async (req, res) => {
+    try {
+        const { apikey } = req.query;
+        if (!global.apikey || !global.apikey.includes(apikey)) {
+            return res.json({ status: false, error: 'Apikey invalid' });
+        }
+
+        // Ambil gambar anime acak
+        const imageUrl = await getRandomAnimeImage();
+        const imageBuffer = await getBuffer(imageUrl);
+
+        // Kirim gambar ke pengguna
+        res.writeHead(200, {
+            'Content-Type': 'image/jpeg', // Ganti jika format gambar berbeda
+            'Content-Length': imageBuffer.length,
+        });
+        res.end(imageBuffer);
+
+    } catch (error) {
+        res.status(500).send(`Error: ${error.message}`);
+    }
+});
+
+// Jalankan server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
