@@ -1,31 +1,48 @@
-module.exports = function app (app) {
-app.get('/imagecreator/brat', async (req, res) => {
+const axios = require('axios');
+
+module.exports = function app(app) {
+    app.get('/imagecreator/brat', async (req, res) => {
         try {
-            const { apikey, text } = req.query
-            if (!global.apikey.includes(apikey)) return res.json({ status: false, error: 'Apikey invalid' })
-            const pedo = await getBuffer(`https://brat.caliphdev.com/api/brat?text=${text}`)
+            const { apikey, text } = req.query;
+            if (!global.apikey.includes(apikey)) return res.json({ status: false, error: 'Apikey invalid' });
+            if (!text) return res.json({ status: false, error: 'Text is required' });
+
+            const pedo = await getBuffer(`https://brat.caliphdev.com/api/brat?text=${text}`);
             res.writeHead(200, {
                 'Content-Type': 'image/png',
                 'Content-Length': pedo.length,
             });
             res.end(pedo);
         } catch (error) {
+            console.error(error);
             res.status(500).send(`Error: ${error.message}`);
         }
     });
-    
-app.get('/imagecreator/bratvideo', async (req, res) => {
+
+    app.get('/imagecreator/bratvideo', async (req, res) => {
         try {
-            const { apikey, text } = req.query
-            if (!global.apikey.includes(apikey)) return res.json({ status: false, error: 'Apikey invalid' })
-            const pedo = await getBuffer(`https://skyzxu-brat.hf.space/brat-animated?text=${text}`)
+            const { apikey, text } = req.query;
+            if (!global.apikey.includes(apikey)) return res.json({ status: false, error: 'Apikey invalid' });
+            if (!text) return res.json({ status: false, error: 'Text is required' });
+
+            const pedo = await getBuffer(`https://skyzxu-brat.hf.space/brat-animated?text=${text}`);
             res.writeHead(200, {
                 'Content-Type': 'video/mp4',
                 'Content-Length': pedo.length,
             });
             res.end(pedo);
         } catch (error) {
+            console.error(error);
             res.status(500).send(`Error: ${error.message}`);
         }
-    });    
+    });
+};
+
+async function getBuffer(url) {
+    try {
+        const response = await axios.get(url, { responseType: 'arraybuffer' });
+        return Buffer.from(response.data);
+    } catch (error) {
+        throw new Error('Failed to fetch buffer from URL');
+    }
 }
