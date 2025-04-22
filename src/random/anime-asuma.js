@@ -1,28 +1,6 @@
 const axios = require('axios');
 
-async function getAnimeData() {
-    try {
-        const response = await axios.get('https://raw.githubusercontent.com/ditss-dev/database/main/anime/asuma.tokii.json');
-        return response.data; // Mengembalikan data JSON dari GitHub
-    } catch (error) {
-        throw new Error('Error fetching anime data');
-    }
-}
-
-// Fungsi untuk mengambil gambar acak dari data anime
-async function getRandomAnimeImage() {
-    try {
-        const animeData = await getAnimeData();
-        const randomIndex = Math.floor(Math.random() * animeData.length); // Ambil index acak
-        const selectedAnime = animeData[randomIndex]; // Ambil data anime berdasarkan index acak
-        const imageUrl = selectedAnime.image; // Ambil URL gambar anime
-        return imageUrl;
-    } catch (error) {
-        throw new Error('Error fetching random anime image');
-    }
-}
-
-// Fungsi untuk mengambil buffer gambar
+// Fungsi untuk mengambil buffer gambar dari URL
 async function getBuffer(url) {
     try {
         const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -33,7 +11,7 @@ async function getBuffer(url) {
 }
 
 module.exports = function(app) {
-    // Endpoint API untuk mengambil gambar anime acak
+    // Endpoint API untuk menampilkan gambar langsung
     app.get('/random/asuma', async (req, res) => {
         try {
             const { apikey } = req.query;
@@ -41,8 +19,10 @@ module.exports = function(app) {
                 return res.json({ status: false, error: 'Apikey invalid' });
             }
 
-            // Ambil gambar anime acak
-            const imageUrl = await getRandomAnimeImage();
+            // URL gambar yang ingin ditampilkan
+            const imageUrl = 'https://example.com/path/to/your/image.jpg';  // Ganti dengan URL gambar yang sesuai
+
+            // Ambil gambar sebagai buffer
             const imageBuffer = await getBuffer(imageUrl);
 
             // Kirim gambar ke pengguna
