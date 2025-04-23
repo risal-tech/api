@@ -5,8 +5,8 @@
     "status": "v1.0.0"
   },
   "apiSettings": {
-    "creator": "ditss", 
-    "apikey": ["DitssGanteng"]
+    "creator": "Sall", 
+    "apikey": ["Sall"]
   },
   "bannerImage": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
   "links": [
@@ -16,12 +16,12 @@
       "icon": "rocket"
     },
     {
-      "url": "https://whatsapp.com/channel/0029VaimJO0E50UaXv9Z1J0L",
-      "name": "Api's Information",
+      "url": "https://whatsapp.com/channel/0029Vb5NW0t0VycB2HSsCG3z",
+      "name": "Api's Information || Testimonial Admin",
       "icon": "layer-group"
     },
     {
-      "url": "https://wa.me/6281513607731",
+      "url": "https://wa.me/62895403887729",
       "name": "Contact Developer",
       "icon": "code"
     }
